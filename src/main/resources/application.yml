@@ -1,0 +1,24 @@
+spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          azure-ad:
+            authorization-uri: https://login.microsoftonline.com/common/oauth2/v2.0/authorize
+            token-uri: https://login.microsoftonline.com/common/oauth2/v2.0/token
+            jwk-set-uri: https://login.microsoftonline.com/common/discovery/v2.0/keys
+        registration:
+          azure-client:
+            provider: azure-ad
+            client-id: ba2d6934-2cf9-40ea-a4a6-3663ea59e587
+            client-secret: ~M.0E_BNMR~V6rQdcxrt6Z4DL~iro0X0_A
+            authorization-grant-type: authorization_code
+            redirect-uri: 'http://localhost:8080/ebe/login/oauth2/code/azure'
+#            'https://sysint.careerswales.gov.wales/ebe/login/oauth2/code/azure'
+#            'http://localhost:8080/ebe/login/oauth2/code/azure'
+            scope: openid,profile
+server:
+  forward-headers-strategy: native
+
+
+

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/eot.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/woff.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/woff2.css">
+    <link rel="stylesheet" type="text/css" href="https://careerswales.gov.wales/styleguide/assets/css/gel-styleguide.css">
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/styleguide/assets/css/gel-elements.css"/>
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/sites/default/files/css/css_Ix2IjZRJPxhlyX0UzoOcvWoONN1wNDbQY7jrFiB85O0.css"/>
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/sites/default/files/css/css_yFFWPpQsZCFeHMtvOieuCWLiTEiz--tT0otLunNJdLs.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Favicon    /-->
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-196x196.png" sizes="196x196"><link rel="icon" type="image/png" href="/styleguide/assets/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-128.png" sizes="128x128">
+
+    <link rel="stylesheet" type="text/css" href="https://krzysztof-rachwal.github.io/ebecss/ebe_style.css">
+<!--    <link th:href="@{../css/ebe_style.css}" href="../css/ebe_style.css" rel="stylesheet"/>-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <title>Home</title>
+</head>
+<body>
+
+<header th:replace="fragments/headerTemplate :: header"></header>
+<main class="js-main-content-area">
+
+<div class="gel-content-container pr-5">
+
+        <div class="container-headline my-5 " style="text-align: center">
+            <span class="title-h2">Welcome <span class="title-h2" th:text="${name}"></span>!</span>
+        </div>
+        <div class="container-headline my-5">
+            <span class="title-h2">Quicklinks</span>
+        </div>
+        <div class="d-flex justify-content-center">
+            <a href="/ebe/request" class="button button--icon d-inline mr-5 p-5 text-center w-100">Request an event</a>
+            <a href="/ebe/contact-us" class="button button--icon d-inline p-5 text-center w-100">Get in touch</a>
+        </div>
+
+        <div class="container-headline my-5">
+            <span class="title-h2">Featured events</span>
+        </div>
+
+    <div class="list-employers col-md-12 mb-5">
+        <div class="gel-content-row" th:each="event : ${featuredEvents}">
+            <article class="card js-card card--style-icon card--100" gel-processed="processed"
+                     th:id="${event.getEventID()}">
+                <a th:href="@{/ebe/profile-event(eventId=${event.getEventID()})}" class="card__inner"
+                   gel-processed="processed" title="Link to Card heading and link title">
+                    <div class="card__content">
+                        <div class="content__image">
+                            <div>
+                                <img alt="Card image" src="https://pbs.twimg.com/profile_images/1243552736039313411/ccpSwaNu_400x400.jpg">
+                            </div>
+                        </div>
+                        <div class="content__body">
+                            <div class="body__title" th:text="${#strings.capitalize(event.getEventName())}"></div>
+                            <div class="body__body" th:text="'Event Venue: ' + ${#strings.capitalize(event.getEventVenueName())} "></div>
+                            <div class="body__body" th:text="'Date: ' + ${#dates.format(event.getEventDateAndTime(),'dd-MM-yyyy')} "></div>
+                        </div>
+                    </div>
+                </a>
+            </article>
+        </div>
+    </div>
+
+    <div class="container-headline my-5">
+        <span class="title-h2">Events in your Local Authority</span>
+    </div>
+
+    <div class="list-employers col-md-12">
+        <div class="gel-content-row" th:each="event : ${recommendedEvents}">
+            <article class="card js-card card--style-icon card--100" gel-processed="processed"
+                     th:id="${event.getEventID()}">
+                <a th:href="@{/ebe/profile-event(eventId=${event.getEventID()})}" class="card__inner"
+                   gel-processed="processed" title="Link to Card heading and link title">
+                    <div class="card__content">
+                        <div class="content__image">
+                            <div>
+                                <img alt="Card image" src="https://pbs.twimg.com/profile_images/1243552736039313411/ccpSwaNu_400x400.jpg">
+                            </div>
+                        </div>
+                        <div class="content__body">
+                            <div class="body__title" th:text="${#strings.capitalize(event.getEventName())}"></div>
+                            <div class="body__body" th:text="'Event Venue: ' + ${#strings.capitalize(event.getEventVenueName())} "></div>
+                            <div class="body__body" th:text="'Date: ' + ${#dates.format(event.getEventDateAndTime(),'dd-MM-yyyy')} "></div>
+                        </div>
+                    </div>
+                </a>
+            </article>
+        </div>
+    </div>
+
+    </div>
+</main>
+
+
+<footer th:replace="fragments/footerTemplate :: footer"></footer>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-styleguide.js"></script>
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-elements-loader.js"></script>-->
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-elements.js"></script>-->
+<!--<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>-->
+<!--<script th:src="@{../js/home.js}" src="../js/home.js"></script>-->
+<!--<script th:src="@{../js/burger-button.js}" src="../js/burger-button.js"></script>-->
+
+<script src="https://krzysztof-rachwal.github.io/ebecss/burger-button.js"></script>
+<script src="https://krzysztof-rachwal.github.io/ebecss/home.js"></script>
+
+</body>
+</html>

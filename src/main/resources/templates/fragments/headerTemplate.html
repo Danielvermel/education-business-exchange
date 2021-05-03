@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+</head>
+<body>
+
+<header th:fragment="header">
+    <div class="wg-header">
+        <div class="wg-header__content">
+            <a href="beta.gov.wales" target="_blank" class="content__wg-link" gel-processed="processed" title="Link to Welsh Government logo">
+                <img src="https://careerswales.gov.wales/styleguide/assets/img/logos/wg-logo-light.svg" alt="Welsh Government logo">
+            </a>
+            <form class="content__search-form">
+                <div class="form__group js-form-group form__text">
+                    <label class="group__label" for="text-search-input">Search this site</label>
+                    <div class="group__element group__element--has-prefix-suffix">
+                        <input type="text" id="text-search-input" name="text-name-prefix-suffix" placeholder="Search Careers Wales">
+                        <div class="group__suffix"><button class="button--icon icon--search icon--text-hidden" aria-label="Search"></button></div>
+                    </div>
+                </div>
+            </form>
+            <a href="#" class="button button--style-dark button--small content__lang-link" gel-processed="processed" title="Link to Cymraeg">
+                Cymraeg
+            </a>
+        </div>
+    </div>
+
+    <div class="branded-masthead js-branded-masthead">
+        <div class="branded-masthead__content">
+            <div class="content__logos">
+                <a href="#" class="ignore-link" title="Careers Wales home">
+                    <img class="content--logo logo--mob-en" src="https://careerswales.gov.wales/styleguide/assets/img/logos/cw-logo-mob-en.svg" role="presentation" alt="">
+                    <img class="content--logo logo--mob-cy" src="https://careerswales.gov.wales/styleguide/assets/img/logos/cw-logo-mob-cy.svg" role="presentation" alt="">
+                    <img class="content--logo" src="https://careerswales.gov.wales/styleguide/assets/img/logos/cw-logo.svg" role="presentation" alt="">
+                    <span class="visually-hidden">Careers Wales home</span>
+                </a>
+            </div>
+            <div class="content__helper-menu js-helper-nav" gel-processed="processed">
+                <ul>
+                    <li>
+                        <a href="https://careerswales.gov.wales/contact-us" >Contact Us</a>
+                    </li>
+                    <li>
+                        <a href="https://careerswales.gov.wales/events" >Events</a>
+                    </li>
+                    <li>
+                        <a href="https://careerswales.gov.wales/news" >News</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <nav aria-label="primary navigation" class="primary js-primary-nav" >
+        <div class="nav__toggle">
+            <button class="toggle__button js-toggle-nav" gel-processed="processed">
+                <span></span><span></span><span></span>Menu
+            </button>
+        </div>
+        <div class="nav__content">
+            <ul>
+                <li>
+                    <a href="/ebe/" id="menuHome"  th:if="${session.SESSION_Role =='CWS' || session.SESSION_Role =='Teacher'}">Home</a>
+                </li>
+                <li>
+                    <a href="/ebe/employers" id="menuEmployers" th:if="${session.SESSION_Role =='CWS'|| session.SESSION_Role =='Teacher'}">Employers</a>
+                </li>
+                <li th:if="${session.SESSION_Role =='CWS'}">
+                    <a href="/ebe/vacancies" id="menuVacancies" >Vacancies</a>
+                </li>
+                <li th:if="${session.SESSION_Role =='CWS'}">
+                    <a href="/ebe/events" id="menuEvents">Events</a>
+                </li>
+                <li th:if="${session.SESSION_Role  =='Teacher'}">
+                    <a href="/ebe/request" id="menuRequest" >Requests</a>
+                </li>
+                <li th:if="${session.SESSION_Role =='CWS'}">
+                    <a href="/ebe/report" id="menuReport">Reports</a>
+                </li>
+                <li th:if="${session.SESSION_Role =='Teacher'}" >
+                    <a href="/ebe/contact-us" id="menuGetInTouch">Get in Touch</a>
+                </li>
+                <li class="float-right pr-4" th:if="${session.SESSION_Role =='CWS' || session.SESSION_Role =='Teacher'}">
+                    <a href="https://login.microsoftonline.com/bdb74b30-9568-4856-bdbf-06759778fcbc/oauth2/v2.0/logout?post_logout_redirect_uri=https%3A%2F%2Fsysint.careerswales.gov.wales%2Febe%2Flogout%20">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+</body>
+
+</html>

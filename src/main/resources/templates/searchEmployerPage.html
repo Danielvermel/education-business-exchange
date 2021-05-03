@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/eot.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/woff.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/woff2.css">
+    <link rel="stylesheet" type="text/css" href="https://careerswales.gov.wales/styleguide/assets/css/gel-styleguide.css">
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/styleguide/assets/css/gel-elements.css"/>
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/sites/default/files/css/css_Ix2IjZRJPxhlyX0UzoOcvWoONN1wNDbQY7jrFiB85O0.css"/>
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/sites/default/files/css/css_yFFWPpQsZCFeHMtvOieuCWLiTEiz--tT0otLunNJdLs.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
+    <!-- Favicon    /-->
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-196x196.png" sizes="196x196"><link rel="icon" type="image/png" href="/styleguide/assets/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-128.png" sizes="128x128">
+
+    <link rel="stylesheet" type="text/css" href="https://krzysztof-rachwal.github.io/ebecss/ebe_style.css">
+<!--    <link th:href="@{../css/ebe_style.css}" href="../css/ebe_style.css" rel="stylesheet" />-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <title>Employers</title>
+
+</head>
+<body>
+<header th:replace="fragments/headerTemplate :: header">
+</header>
+<main class="js-main-content-area">
+
+    <div class="gel-content-container">
+        <div id="success_message" class="alert alert-success alert-dismissible fade d-none" role="alert">
+            <strong>Success!</strong><span id="success_message_text"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+    <!-- Breadcrumbs -->
+    <nav aria-label="breadcrumb" class="breadcrumb pl-4 breadcrumb_ebe">
+        <span>You are here:</span>
+        <ul>
+            <li>
+                <a href="/ebe/" gel-processed="processed" title="Link to Home page">Home page</a>
+            </li>
+            <li>
+                <a href="#" gel-processed="processed" title="Link to Current page title as a link to the current page">Employers page</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="container-headline mt-2 mb-5">
+        <span class="title-h2">Employers</span>
+        <a href="/ebe/add-employer">
+            <button type="button" th:if="${session.SESSION_Role =='CWS'}" id="addEmployer" class="button--secondary float-right">Add Employer</button>
+        </a>
+    </div>
+
+        <!--- Filters --->
+
+        <div class="flex-container">
+            <div class="col-lg-3 col-md-3">
+                <div class="mb-3">
+                    <label for="industry-sector">Sector Areas</label><br>
+                    <select id="industry-sector"  data-width="100%" class="selectpicker" multiple data-live-search="true">
+                        <option th:each="employerIndustrySector : ${allEmployerIndustrySectors}" th:value="${employerIndustrySector.getEmployerIndustrySectorID()}" th:text="${employerIndustrySector.getEmployerIndustrySectorName()}"></option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="employer-cooperation-type">Cooperation Type</label><br>
+                    <select id="employer-cooperation-type" data-width="100%"   class="selectpicker" multiple data-live-search="true">
+                        <option  th:each="employerCooperationType : ${allEmployerCooperationType}" th:value="${employerCooperationType.getEmployerCooperationTypeID()}" th:text="${employerCooperationType.getEmployerCooperationTypeName()}"></option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="curriculum-area">Curriculum Areas</label><br>
+                    <select id="curriculum-area" data-width="100%" class="selectpicker" multiple data-live-search="true">
+                        <option th:each="employerCurriculumAreas : ${allEmployerCurriculumAreas}" th:value="${employerCurriculumAreas.getEmployerAreaOfCurriculumID()}" th:text="${employerCurriculumAreas.getEmployAreaOfCurriculumName()}"></option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="schools-attending">Schools Preferences</label><br>
+                    <select class="selectpicker"  data-width="100%" multiple data-live-search="true" id="schools-attending">
+                        <option  th:each="school : ${allSchoolNamesAndIds}" th:value="${school.getSchoolID()}" th:text="${school.getSchoolName()}"></option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="employer-preferences">Preferences</label><br>
+                    <select class="selectpicker"  data-width="100%" multiple data-live-search="true" id="employer-preferences">
+                        <option  th:each="employerPreferences : ${allEmployerPreferences}" th:value="${employerPreferences.getEmployerPreferencesID()}" th:text="${employerPreferences.getEmployerPreferencesName()}"></option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="employer-language">Foreign Language</label><br>
+                    <select class="selectpicker" data-width="100%" multiple data-live-search="true" id="employer-language">
+                        <option  th:each="employerLanguage : ${allEmployerLanguage}" th:value="${employerLanguage.getEmployerLanguageID()}" th:text="${employerLanguage.getEmployerLanguageName()}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="local-authorities">Local Authorities</label><br>
+                    <select class="selectpicker" data-width="100%" multiple data-live-search="true" id="local-authorities">
+                        <option  th:each="employerLocalAuthority : ${allEmployerLocalAuthorities}" th:value="${employerLocalAuthority.getEmployerLocalAuthorityID()}"  th:text="${employerLocalAuthority.getEmployerLocalAuthorityName()}"></option>
+                    </select>
+                </div>
+                <a href="#">
+                    <button type="button" id="filterButton" class="button--secondary w-100 text-center">Filter</button>
+                </a>
+            </div>
+
+
+        <div class="col-lg-9" style="border-left: grey 1px solid">
+            <div class="gel-content-container">
+
+                <div class="row">
+                    <!-- Search -->
+                    <div class="input-group col-7">
+                        <input type="text" class="search-box" onkeyup="searchEmployer()" id="employer-search"  placeholder=" Search">
+                        <div class="input-group-append">
+                            <button class="input-group-text input-border" onclick="searchEmployer()">
+                                <i class="fa fa-search"></i>
+                            </button>
+
+                            <!--CWS-->
+                            <button class="tooltip-button input-group-text" th:if="${session.SESSION_Role =='CWS'}" id="tooltip" data-toggle="tooltip" data-placement="top" data-html="true" data-original-title= "<span class='float-left'>Search By:</span><br><span class='float-left'>-Notes</span><br><span class='float-left'>-Employer Name</span><br><span class='float-left'>-Employer City</span><br><span class='float-left'>-Employer PostCode</span><br><span class='float-left'>-Contact Person</span><br><span>-Contact Person Position</span>">
+                                <i class="fa fa-info-circle"></i>
+                            </button>
+
+                            <!--Teachers-->
+                            <button class="tooltip-button input-group-text" th:if="${session.SESSION_Role =='Teacher'}" id="tooltip" data-toggle="tooltip" data-placement="top" data-html="true" data-original-title= "<span class='float-left'>Search By:</span><br><span class='float-left'>-Employer Name</span><br>">
+                                <i class="fa fa-info-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                        <!-- Sorted by-->
+                        <div class="col-5 medium-dev">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text input-border">Sort By:</span>
+                                </div>
+                                <select class="form-control input-border selectpicker" name="employer-sort-by">
+                                    <option selected="selected" value="Featured">Featured</option>
+                                    <option value="Name" data-val="DESC">Name (ASC)</option>
+                                    <option value="Name" data-val="ASC">Name (DESC)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+
+                <!-- Cards -->
+
+                <div class="list-employers">
+                    <div class="gel-content-row employer-card employer-found employer-filtered" th:each="employer : ${allEmployers}"  th:id="${employer.getEmployerID()}" th:classappend="${session.SESSION_Role =='Teacher' && employer.getStatusOfEmployerID()==1} ? dis-none : dis-block">
+                        <article class="card js-card card--style-icon card--100" gel-processed="processed">
+                            <a th:href="@{/ebe/profile-employer(employerId=${employer.getEmployerID()})}" class="card__inner" gel-processed="processed">
+                                <div class="card__content">
+                                    <div class="content__image">
+                                        <div>
+                                            <img alt="Card image"  th:src="${employer.getLogoLink()}" th:if="${employer.getLogoLink()!= null}">
+                                            <img alt="Card image" src="https://pbs.twimg.com/profile_images/1243552736039313411/ccpSwaNu_400x400.jpg" th:if="${employer.getLogoLink()== null}" >
+
+                                        </div>
+                                    </div>
+                                    <div class="content__body">
+                                        <div class="body__title searchable"  name="employer-card-title" th:text="${#strings.capitalize(employer.getEmployerName())}"></div>
+                                        <div class="body__body" th:text="${#strings.capitalize(employer.getCompanySummary())}"></div>
+
+                                        <span th:if="${session.SESSION_Role =='CWS'}">
+                                            <h5 class="searchable d-none" th:text="${employer.getEmployerAddressCity()}"></h5>
+                                            <h5 class="searchable d-none" th:text="${employer.getEmployerPostcode()}"></h5>
+                                            <h5 class="searchable d-none" th:text="${#strings.capitalize(employer.getContactPersonNameSurname())}"></h5>
+                                            <h5 class="searchable d-none" th:text="${#strings.capitalize(employer.getContactPersonPosition())}"></h5>
+                                            <h5 class="searchable d-none" th:text="${#strings.capitalize(employer.getNotes())}"></h5>
+                                        </span>
+
+                                        </div>
+                                    </div>
+                                </a>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="fragments/footerTemplate :: footer"></footer>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-styleguide.js"></script>-->
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-elements-loader.js"></script>-->
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-elements.js"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+<!--<script th:src="@{../js/employer.js}" src="../js/employer.js"></script>-->
+<!--<script th:src="@{../js/burger-button.js}" src="../js/burger-button.js"></script>-->
+
+<script src="https://krzysztof-rachwal.github.io/ebecss/burger-button.js"></script>
+<script src="https://krzysztof-rachwal.github.io/ebecss/employer.js"></script>
+
+<script>
+    $('.selectpicker').selectpicker();
+</script>
+
+</body>
+</html>
+

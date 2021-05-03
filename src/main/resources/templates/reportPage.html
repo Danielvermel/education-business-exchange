@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/eot.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/woff.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/woff2.css">
+    <link rel="stylesheet" type="text/css" href="https://careerswales.gov.wales/styleguide/assets/css/gel-styleguide.css">
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/styleguide/assets/css/gel-elements.css"/>
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/sites/default/files/css/css_Ix2IjZRJPxhlyX0UzoOcvWoONN1wNDbQY7jrFiB85O0.css"/>
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/sites/default/files/css/css_yFFWPpQsZCFeHMtvOieuCWLiTEiz--tT0otLunNJdLs.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <!-- Favicon    /-->
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-196x196.png" sizes="196x196"><link rel="icon" type="image/png" href="/styleguide/assets/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-128.png" sizes="128x128">
+
+    <link rel="stylesheet" type="text/css" href="https://krzysztof-rachwal.github.io/ebecss/ebe_style.css">
+<!--    <link th:href="@{../css/ebe_style.css}" href="../css/ebe_style.css" rel="stylesheet"/>-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <title>Reports</title>
+</head>
+<body>
+
+
+<header th:replace="fragments/headerTemplate :: header">
+</header>
+<main class="js-main-content-area">
+    <div class="modal fade bd-example-modal-lg" id="viewRequests" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog gel-content-container" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="modal-center">
+                        <div class="container-fluid">
+                            <div class="container my-3 p-0">
+                                <h4 class="modal-title float-left">Requests by schools</h4>
+                                <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row well border-0">
+                            <div class="col-md-12 p-0 list-employers">
+                                <div th:each="key : ${schoolAndRequests.keySet()}">
+                                    <div class="gel-content-row">
+                                        <article class="card js-card card--style-icon card--100"
+                                                 gel-processed="processed">
+                                            <a href="#" class="card__inner" gel-processed="processed"
+                                               title="Link to Card heading and link title">
+                                                <div class="card__content">
+                                                    <div class="content__image">
+                                                        <div>
+                                                            <img alt="Card image"
+                                                                 src="https://pbs.twimg.com/profile_images/1243552736039313411/ccpSwaNu_400x400.jpg">
+                                                        </div>
+                                                    </div>
+                                                    <div class="content__body">
+                                                        <div class="body__title" th:text="${key}">
+                                                        </div>
+                                                        <div class="body__body">
+                                                            <span> Number of requests: </span>
+                                                            <span th:text="${schoolAndRequests.get(key)}"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<div class="gel-content-container">
+    <!-- Breadcrumbs -->
+    <nav aria-label="breadcrumb" class="breadcrumb pl-4 breadcrumb_ebe">
+        <span>You are here:</span>
+        <ul>
+            <li>
+                <a href="/ebe/" gel-processed="processed" title="Link to Home page">Home page</a>
+            </li>
+            <li>
+                <a href="#" gel-processed="processed" title="Link to Current page title as a link to the current page">Report page</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="container-headline mt-3">
+        <span class="title-h2">Reports</span>
+    </div>
+
+        <div class="container-fluid eventBackground">
+            <div class="row">
+                <div class="card-group mt-4 mb-4">
+                    <div class="card">
+                        <div class="card-body p-2">
+                            <h4 class="card-title gel-text-align-center text-success font-weight-bold "
+                                th:text="${numberOfEvents}"></h4>
+                            <span class="h5 gel-text-align-center mt-0 stats-numbers">Events hosted</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body p-2">
+                            <h4 class="card-title gel-text-align-center text-info font-weight-bold "
+                                th:text="${numberOfEmployers}"></h4>
+                            <span class="h5 gel-text-align-center mt-0 stats-numbers">Employers</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body p-2">
+                            <h4 class="card-title gel-text-align-center text-success font-weight-bold "
+                                th:text="${numberOfVacancies}"></h4>
+                            <span class="h5 gel-text-align-center mt-0 stats-numbers">Vacancies</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body p-2">
+                            <h4 class="card-title gel-text-align-center text-info font-weight-bold "
+                                th:text="${requestsBySchools}"></h4>
+                            <span class="h5 gel-text-align-center mt-0 stats-numbers">Requests by schools</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body p-2">
+                            <h4 class="card-title gel-text-align-center text-success font-weight-bold "
+                                th:text="${schoolAtEvents}"></h4>
+                            <span class="h5 gel-text-align-center mt-0 stats-numbers">Schools at events</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body p-2">
+                            <h4 class="card-title gel-text-align-center text-info font-weight-bold "
+                                th:text="${numberOfPupils}"></h4>
+                            <span class="h5 gel-text-align-center mt-0 stats-numbers">Total pupils</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-lg-6 well">
+                    <span class="h5 mt-0 mb-4">Events by local authority</span>
+                    <div th:each="key,i : ${evByLocalAuth.keySet()}">
+                        <div class="col-md-6 mb-2">
+                            <span class="h4 text-info d-inline" th:text="${evByLocalAuth.get(key)} + ' in '"></span>
+                            <span th:text="${key}"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6 well reportMedDev " >
+                    <span class="h5 mt-0 mb-4">Events by adviser</span>
+                    <div th:each="key,i : ${eventsByAdv.keySet()}">
+                        <div class="col-md-6 mb-2">
+                            <span class="h4 text-info d-inline" th:text="${eventsByAdv.get(key) + ' by '}"></span>
+                            <span th:text="${key}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12 well">
+                    <span class="h5 mt-0 mb-4">Employers by sector</span>
+                    <div th:each="key,i : ${empBySector.keySet()}" class="mt-0">
+                        <div class="col-md-6 p-0 d-block mx-0 mb-2">
+                            <span th:text="${empBySector.get(key)}" class="h4 text-info d-inline"></span>
+                            <span th:text="${key}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12 col-lg-6 well">
+                    <span class="h5 mt-0 mb-4">Events by type</span>
+                    <div th:each="key : ${eventsByType.keySet()}">
+                        <div class="mb-4">
+                            <span class="h4 text-info d-inline" th:text="${eventsByType.get(key)}"></span>
+                            <span th:text="${key}"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6 well reportMedDev">
+                    <span class="h5 mt-0 mb-4">Events by type and local authority</span>
+                    <form class="p-0">
+                        <div class="d-block">
+                            <label for="typeOfEvent" class="d-block mb-0 ">Type of event</label>
+                            <select class="selectpicker d-block" id="typeOfEvent" name="typeEvent">
+                                <option th:each="event : ${allTypesOfEvents}" th:value="${event.getTypeOfEventID()}"
+                                        th:text="${event.getTypeOfEventName()}"></option>
+
+                            </select>
+                        </div>
+                        <div class="d-block">
+                            <label for="authorityForEve" class="d-block mb-0 mt-3">Local Authority</label>
+                            <select class="selectpicker d-block" id="authorityForEve" name="localAuth">
+                                <option th:each="employerLocalAuthority : ${allLocalAuthorities}"
+                                        th:value="${employerLocalAuthority.getEmployerLocalAuthorityID()}"
+                                        th:text="${employerLocalAuthority.getEmployerLocalAuthorityName()}"></option>
+                            </select>
+                        </div>
+                        <div class="pl-0 py-3">
+                            <button type="button" id="eventsByAuthType" class="button--secondary"
+                                    onclick="getEventsByAuthAndType()">Submit
+                            </button>
+                        </div>
+                    </form>
+                    <div class="d-block ">
+                        <h4 class="h4 text-info d-block gel-text-align-center" id="eventAuthResult"></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row well d-block mt-3">
+                <span class="h4 mt-1 text-success d-flex justify-content-center" th:text="${requestsBySchools}">0</span>
+                <span class="h3 d-flex mt-0 justify-content-center">Requests by schools</span>
+                <div class="container my-4 text-center">
+                    <button type="button" class="button--secondary text-center" data-toggle="modal"
+                            data-target="#viewRequests">View schools
+                    </button>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12 col-lg-6 well">
+                    <span class="h5 mt-0 mb-4">Number of pupils attending by local authority</span>
+                    <div th:each="key,i : ${pupilsByAuth.keySet()}">
+                        <div class="col-md-6 mb-2">
+                            <span class="h4 text-info d-inline" th:text="${pupilsByAuth.get(key)}"></span>
+                            <span th:text="${key}"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6 well reportMedDev">
+                    <span class="h5 mt-0 mb-4">Schools attending events by local authority</span>
+                    <div th:each="key, i : ${schoolsOnEveLocalAuth.keySet()}">
+                        <div class="col-md-6 mb-2">
+                            <span class="h4 text-info d-inline"
+                                  th:text="${schoolsOnEveLocalAuth.get(key)} + ' in '"></span>
+                            <span th:text="${key}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12 col-lg-6 well">
+                    <span class="h5 mt-0 mb-4">Employers by local authority</span>
+                    <div th:each="key,i :${empByLocalAuth.keySet()}">
+                        <div class="col-md-6 mb-2">
+                            <span class="h4 text-info d-inline" th:text="${empByLocalAuth.get(key)} + ' in '"></span>
+                            <span th:text="${key}"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6 well reportMedDev">
+                    <span class="h5 mt-0 mb-4">Schools that attended events</span>
+                    <form class="p-0">
+                        <div class="d-block">
+                            <label for="schoolForEvent" class="d-block mb-0 ">Choose school</label>
+                            <select id="schoolForEvent" class="selectpicker d-block" name="schoolId" data-live-search="true">
+                                <option th:each="school : ${allSchoolsNames}" th:value="${school.getSchoolID()}"
+                                        th:text="${school.getSchoolName()}"></option>
+                            </select>
+                        </div>
+                        <div class="pl-0 py-3">
+                            <button type="button" id="eventsBySchool" class="button--secondary"
+                                    onclick="getEventsBySchool()">Submit
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="d-block">
+                        <h4 class="h4 text-info d-block gel-text-align-center" id="eveBySchoolResult"></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="fragments/footerTemplate :: footer"></footer>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-styleguide.js"></script>-->
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-elements-loader.js"></script>-->
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-elements.js"></script>-->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+<!--<script th:src="@{../js/burger-button.js}" src="../js/burger-button.js"></script>-->
+<!--<script th:src="@{../js/statistics.js}" src="../js/statistics.js"></script>-->
+
+<script src="https://krzysztof-rachwal.github.io/ebecss/burger-button.js"></script>
+<script src="https://krzysztof-rachwal.github.io/ebecss/statistics.js"></script>
+<script>
+    $('.my-select').selectpicker();
+</script>
+
+
+</body>
+</html>

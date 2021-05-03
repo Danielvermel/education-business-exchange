@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/eot.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/woff.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/woff2.css">
+    <link rel="stylesheet" type="text/css" href="https://careerswales.gov.wales/styleguide/assets/css/gel-styleguide.css">
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/styleguide/assets/css/gel-elements.css"/>
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/sites/default/files/css/css_Ix2IjZRJPxhlyX0UzoOcvWoONN1wNDbQY7jrFiB85O0.css"/>
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/sites/default/files/css/css_yFFWPpQsZCFeHMtvOieuCWLiTEiz--tT0otLunNJdLs.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
+    <!-- Favicon    /-->
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-196x196.png" sizes="196x196"><link rel="icon" type="image/png" href="/styleguide/assets/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-128.png" sizes="128x128">
+
+    <link rel="stylesheet" type="text/css" href="https://krzysztof-rachwal.github.io/ebecss/ebe_style.css">
+<!--    <link th:href="@{../css/ebe_style.css}" href="../css/ebe_style.css" rel="stylesheet"/>-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <title>Add Event</title>
+</head>
+
+<header th:replace="fragments/headerTemplate :: header">
+</header>
+<main class="js-main-content-area">
+    <div class="gel-content-container">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb" class="breadcrumb pl-4 breadcrumb_ebe">
+            <span>You are here:</span>
+            <ul>
+                <li>
+                    <a href="/ebe/" gel-processed="processed" title="Link to Home page">Home page</a>
+                </li>
+                <li>
+                    <a href="/ebe/events" gel-processed="processed" title="Link to Events page">Events page</a>
+                </li>
+                <li>
+                    <a href="#" gel-processed="processed"
+                       title="Link to Current page title as a link to the current page">Add Event page</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="container mt-2 mb-5 ml-0">
+            <h2>Add Event</h2>
+        </div>
+
+        <div id="failed_message" class="alert alert-danger alert-dismissible fade d-none" role="alert">
+            <strong>Failed!</strong> <span id="failed_message_text"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <form>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="event-name">Event Name &#42;</label>
+                            <input type="text" class="form-control form-required" id="event-name">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="event-type">Event Type &#42;</label><br>
+                            <select class="selectpicker" data-width="80%" data-live-search="true" id="event-type"
+                                    title="Nothing selected">
+                                <option th:each="event : ${allEventTypes}" th:value="${event.getTypeOfEventID()}"
+                                        th:text="${event.getTypeOfEventName()}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="form-group">
+                            <label for="event-summary">Event Summary &#42;</label>
+                            <textarea class="form-control form-required text-area-w-80" rows="3"
+                                      id="event-summary"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Address &#42;</label>
+                        <div class="group-input">
+                            <div class="input-group-prepend">
+                                <input type="text" id="event-street"
+                                       class="form-control border-right input-sm form-required w-80"
+                                       placeholder="Street">
+                                <input type="text" id="event-number" class="form-control w-80 form-required"
+                                       placeholder="Building No">
+                            </div>
+                            <div class="input-group-prepend mt-1">
+                                <input type="text" id="event-postcode"
+                                       class="form-control border-right form-required w-80" placeholder="Post Code">
+                                <input type="text" id="event-city" class="form-control form-required w-80"
+                                       placeholder="City">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="event-date">Event Date &#42;</label>
+                            <input type="date" class="form-control w-80 form-required" id="event-date">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="event-time">Event Time &#42;</label>
+                            <input type="time" class="form-control w-80 form-required" id="event-time">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="event-venue">Event Venue </label>
+                            <input type="text" class="form-control w-80" id="event-venue">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 ">
+                        <div class="form-group">
+                            <label for="adviser-name">Adviser Name </label>
+                            <input type="text" class="form-control w-80 " id="adviser-name">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="no-attendees">Number of Attendees &#42;</label>
+                            <input type="number" min="0" class="form-control w-80 " id="no-attendees">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="employers-attending">Employers Attending &#42;</label><br>
+                            <select class="selectpicker" multiple data-live-search="true" data-width="80%"
+                                    id="employers-attending">
+                                <option th:each="employer : ${AllEmployerNamesAndIds}"
+                                        th:value="${employer.getEmployerID()}"
+                                        th:text="${employer.getEmployerName()}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="schools-attending">Schools Attending&#42;</label><br>
+                            <select class="selectpicker" multiple data-live-search="true" data-width="80%"
+                                    id="schools-attending">
+                                <option th:each="school : ${allSchoolNamesAndIds}" th:value="${school.getSchoolID()}"
+                                        th:text="${school.getSchoolName()}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Can the event be conducted in Welsh? &#42;</label>
+                            <select id="conducted-welsh" class="selectpicker" title="Nothing selected" data-width="80%">
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Does the event promote apprenticeship? &#42;</label>
+                            <select id="promote-apprenticheship" class="selectpicker" title="Nothing selected"
+                                    data-width="80%">
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Does the event challenger gender stereotypes? &#42;</label>
+                            <select id="challenger-gender" class="selectpicker" title="Nothing selected"
+                                    data-width="80%">
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Is the Event going to be Public? &#42;</label>
+                            <select id="event-public" class="selectpicker" title="Nothing selected" data-width="80%">
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Is the Event Cancelled? &#42;</label>
+                            <select id="event-cancelled" class="selectpicker" title="Nothing selected" data-width="80%">
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Is this a featured event? &#42;</label>
+                            <select id="event-featured" class="selectpicker" title="Nothing selected" data-width="80%">
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="container my-4 text-center">
+                    <button type="button" class="button--secondary text-center" onclick="createNewEvent()">Add Event
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+</main>
+<footer th:replace="fragments/footerTemplate :: footer"></footer>
+
+<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-styleguide.js"></script>-->
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-elements-loader.js"></script>-->
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-elements.js"></script>-->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+<!--<script th:src="@{../js/events.js}" src="../js/events.js"></script>-->
+<!--<script th:src="@{../js/burger-button.js}" src="../js/burger-button.js"></script>-->
+
+<script src="https://krzysztof-rachwal.github.io/ebecss/burger-button.js"></script>
+<script src="https://krzysztof-rachwal.github.io/ebecss/events.js"></script>
+
+<script>
+    $('.selectpicker').selectpicker();
+</script>
+
+</body>
+</html>

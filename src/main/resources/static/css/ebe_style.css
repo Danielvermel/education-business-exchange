@@ -1,0 +1,241 @@
+body {
+    font-family: Arial;
+    overflow-y: scroll !important;
+    overflow-x: hidden;
+}
+
+.text-info{
+    color: #01778a!important;
+}
+
+.text-success{
+    color: #d1368b!important;
+}
+
+.container-fluid, form, .modal-body, .well {
+    background-color: #EEEEEE;
+}
+
+.gel-content-container{
+    max-width: 1050px;
+}
+
+.well {
+    padding: 15px;
+    border-left: 10px solid white;
+    border-right: 10px solid white;
+}
+
+.well2{
+    padding: 15px;
+    margin: 0px;
+    background-color: #DDDDDD;
+}
+
+.container-headline{
+    max-width: 987px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.title-h2{
+    margin-bottom: .5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    font-size: 2rem;
+}
+
+.buttonDelete{
+    background:#fff ;
+    color:#007066 ;
+    border-left: 2px solid #007066;
+    padding: 5px 20px !important;
+}
+
+.buttonUpdateModal{
+     /*background:#fff ;*/
+     color:#007066 ;
+     padding: 5px 20px !important;
+ }
+
+.buttonUpdate{
+    background:#fff ;
+    color:#007066 ;
+    padding: 5px 20px !important;
+}
+
+
+.buttonDelete:focus , .buttonUpdate:focus {
+    background: #007066;
+    color: #fff;
+    outline:none;
+}
+
+.buttonDelete:hover , .buttonUpdate:hover {
+    background: #007066;
+    color: #fff;
+    border: none !important;
+}
+
+.eventBackground{
+    background: white !important;
+}
+
+.modal-content{
+    background:  #EEEEEE !important;
+    border-radius: 0!important;
+}
+
+.modal-header, .modal-body, .modal-footer{
+    border: none !important;
+}
+
+hr{
+    border-top: 10px solid #e5e5e5;
+    margin: 30px 0;
+    padding-top: 30px;
+}
+
+.input-border{
+    border-radius: 0;
+}
+
+.card{
+    border: none !important;
+}
+
+.flex-container{
+    display: flex;
+    align-items: stretch;
+}
+
+.card--style-icon .card__inner .card__content .content__body .body__title{
+    color: black !important;
+}
+a {
+    text-decoration: none !important;
+    color: #0360a6;
+    font-weight: 700;
+}
+
+a:visited {
+    color: #0360a6;
+}
+
+.list-employers, .list-vacancies, .list-events{
+    overflow-y:scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    max-height: 125vh;
+}
+
+.title-h1{
+    font-size: 3em;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+}
+
+.container-headline{
+    max-width: 987px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.title-h2 {
+    margin-bottom: .5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+.well3{
+    border: solid 10px white;
+}
+
+.typoWhite{
+    color: white !important;
+}
+@media screen and (min-width: 600px){
+
+    .modal-center {
+        margin: 0 0 40px;
+        padding: 40px;
+        }
+}
+
+ul{
+    list-style-type: none;
+}
+
+.alert{
+    bottom: 0px;
+    position: fixed;
+    z-index: 1060;
+    right: 5px;
+    width: 260px;
+}
+
+.tooltip-button{
+    background: transparent;
+    border: transparent;
+}
+
+.form-control{
+    border: solid 1px transparent !important;
+}
+
+.group-input{
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    width: 80%;
+}
+
+.text-area-w-80{
+    width:80% !important;
+}
+
+.search-box{
+    border: solid 1px gainsboro !important;
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+.breadcrumb_ebe{
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+}
+
+
+@media (min-width: 768px) and (max-width: 991.98px){
+    .medium-dev{
+        padding-left: 0;
+    }
+
+    .reportMedDev{
+        margin-top: 1rem;
+    }
+
+    .stats-numbers{
+        font-size: medium;
+    }
+}
+
+#sectorPref li {
+    max-width: fit-content;
+}
+.upload_form{
+    padding: 0 !important;
+}
+
+.dis-none{
+    display: none;
+}

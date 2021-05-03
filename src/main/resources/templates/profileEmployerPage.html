@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/eot.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://use.fortawesome.com/kits/747c3a74/publications/latest/woff.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://use.fortawesome.com/kits/747c3a74/publications/latest/woff2.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://careerswales.gov.wales/styleguide/assets/css/gel-styleguide.css">
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/styleguide/assets/css/gel-elements.css"/>
+    <link rel="stylesheet" media="all"
+          href="https://careerswales.gov.wales/sites/default/files/css/css_Ix2IjZRJPxhlyX0UzoOcvWoONN1wNDbQY7jrFiB85O0.css"/>
+    <link rel="stylesheet" media="all"
+          href="https://careerswales.gov.wales/sites/default/files/css/css_yFFWPpQsZCFeHMtvOieuCWLiTEiz--tT0otLunNJdLs.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
+    <!-- Favicon    /-->
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-196x196.png" sizes="196x196"><link rel="icon" type="image/png" href="/styleguide/assets/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-128.png" sizes="128x128">
+
+    <link rel="stylesheet" type="text/css" href="https://krzysztof-rachwal.github.io/ebecss/ebe_style.css">
+<!--    <link th:href="@{../css/ebe_style.css}" href="../css/ebe_style.css" rel="stylesheet"/>-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <title th:text="${employer.getEmployerName()}">Employer</title>
+</head>
+
+<header th:replace="fragments/headerTemplate :: header"></header>
+<main class="js-main-content-area">
+    <!-- Modal Update -->
+    <div class="modal fade bd-example-modal-lg" id="updateModal" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog gel-content-container" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body">
+
+                    <form>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="container my-3 p-0">
+                                    <h3 class="modal-title float-left">Update Employer Information</h3>
+                                    <button type="button" class="close float-right" data-dismiss="modal"
+                                            aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                            <div class="container my-3 p-0">
+                                <h4>Personal Info</h4>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="company-name">Company Name &#42;</label>
+                                    <input type="text" class="form-control form-required" id="company-name" th:value="${employer.getEmployerName()}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="company-summary">Company Summary &#42;</label>
+                                    <textarea class="form-control form-required text-area-w-80"  rows="3" id="company-summary" th:text="${employer.getCompanySummary()}" th:value="${employer.getCompanySummary()}"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <form enctype="multipart/form-data" class="upload_form" method="post" id="logo-upload-form">
+                                        <label for="file-upload-input">Select logo file to upload</label>
+                                        <input type="file" id="logo-upload-input" name="file">
+<!--                                        <button type="button" class="button&#45;&#45;secondary" value="Submit" onclick="uploadLogo()"></button>-->
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="employer-employees-number">Number of Employees &#42;</label><br>
+                                    <select id="employer-employees-number" data-width="80%" class="selectpicker">
+                                        <option  th:each="employerNumberEmployees : ${allEmployerNumberOfEmployees}" th:selected="${employerNumberEmployees.getNumberOfEmployeesID() == employer.getNumberOfEmployeesID()}"  th:value="${employerNumberEmployees.getNumberOfEmployeesID()}" th:text="${employerNumberEmployees.getNumberOfEmployeesName()}"></option>
+                                    </select>
+                                </div>
+                                <label>Address &#42;</label>
+                                <div class="group-input">
+                                    <div class="input-group-prepend">
+                                        <input type="text" id="employer-street" class="form-control border-right input-sm form-required w-80" th:value="${employer.getEmployerAddressStreet()}">
+                                        <input type="text" id="employer-number" class="form-control form-required w-80" th:value="${employer.getEmployerAddressNumber()}">
+                                    </div>
+                                    <div class="input-group-prepend mt-1">
+                                        <input type="text" id="employer-postcode" class="form-control border-right form-required w-80" th:value="${employer.getEmployerPostcode()}">
+                                        <input type="text" id="employer-city" class="form-control form-required w-80" th:value="${employer.getEmployerAddressCity()}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="row">
+                                <div class="container my-3 p-0">
+                                    <h4>Contact Info</h4>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="contact-name">Contact Name &#42;</label>
+                                        <input type="text" class="form-control form-required" id="contact-name"
+                                               th:value="${employer.getContactPersonNameSurname()}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact-position">Contact Position &#42;</label>
+                                        <input type="text" class="form-control form-required" id="contact-position"
+                                               th:value="${employer.getContactPersonPosition()}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="employer-phone">Phone Number &#42;</label>
+                                        <input type="text" class="form-control form-required" id="employer-phone"
+                                               th:value="${employer.getEmployerPhone()}">
+                                    </div>
+                                    <!--                    <div class="form-group">-->
+                                    <!--                        <label for="mob-num">Mobile number</label>-->
+                                    <!--                        <input type="text" class="form-control input-border" id="employer-mobile">-->
+                                    <!--                    </div>-->
+                                    <div class="form-group">
+                                        <label for="employer-email">Email &#42;</label>
+                                        <input type="text" class="form-control form-required" id="employer-email"
+                                               th:value="${employer.getEmployerEmail()}">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="employer-twitter">Twitter</label>
+                                        <input type="text" class="form-control input-border" id="employer-twitter"
+                                               th:value="${employer.getEmployerTwitter()}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="employer-facebook">Facebook</label>
+                                        <input type="text" class="form-control input-border" id="employer-facebook"
+                                               th:value="${employer.getEmployerFB()}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="employer-website">Website</label>
+                                        <input type="text" class="form-control input-border" id="employer-website"
+                                               th:value="${employer.getEmployerWebsite()}">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="container my-3 p-0">
+                                    <h4>Other</h4>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="industry-sector">Industry Sector &#42;</label><br>
+                                    <select id="industry-sector" data-width="80%" class="selectpicker" multiple
+                                            data-live-search="true">
+                                        <option th:each="employerIndustrySector : ${allEmployerIndustrySectors}"
+                                                th:selected="${allEmployerChosenIndustrySectors.contains(employerIndustrySector.getEmployerIndustrySectorID())}"
+                                                th:value="${employerIndustrySector.getEmployerIndustrySectorID()}"
+                                                th:text="${employerIndustrySector.getEmployerIndustrySectorName()}"></option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <label for="employer-cooperation-type">Cooperation Type &#42;</label><br>
+                                    <select id="employer-cooperation-type" data-width="80%" class="selectpicker"
+                                            multiple data-live-search="true">
+                                        <option th:each="employerCooperationType : ${allEmployerCooperationType}"
+                                                th:selected="${allEmployerChosenCooperationType.contains(employerCooperationType.getEmployerCooperationTypeID())}"
+                                                th:value="${employerCooperationType.getEmployerCooperationTypeID()}"
+                                                th:text="${employerCooperationType.getEmployerCooperationTypeName()}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label for="curriculum-area">Curriculum Areas &#42;</label><br>
+                                    <select id="curriculum-area" data-width="80%" class="selectpicker" multiple
+                                            data-live-search="true">
+                                        <option th:each="employerCurriculumAreas : ${allEmployerCurriculumAreas}"
+                                                th:selected="${allEmployerChosenCurriculumAreas.contains(employerCurriculumAreas.getEmployerAreaOfCurriculumID())}"
+                                                th:value="${employerCurriculumAreas.getEmployerAreaOfCurriculumID()}"
+                                                th:text="${employerCurriculumAreas.getEmployAreaOfCurriculumName()}"></option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <label for="schools-attending">Schools Preferences &#42;</label><br>
+                                    <select class="selectpicker" data-width="80%" multiple data-live-search="true"
+                                            id="schools-attending">
+                                        <option th:each="school : ${allSchoolNamesAndIds}"
+                                                th:selected="${allEmployerSchoolPreferences.contains(school.getSchoolID())}"
+                                                th:value="${school.getSchoolID()}"
+                                                th:text="${school.getSchoolName()}"></option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <label for="employer-preferences">Preferences &#42;</label><br>
+                                    <select class="selectpicker" data-width="80%" multiple data-live-search="true"
+                                            id="employer-preferences">
+                                        <option th:each="employerPreferences : ${allEmployerPreferences}"
+                                                th:selected="${allEmployerChosenPreferences.contains(employerPreferences.getEmployerPreferencesID())}"
+                                                th:value="${employerPreferences.getEmployerPreferencesID()}"
+                                                th:text="${employerPreferences.getEmployerPreferencesName()}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-4 d-none" id="div-foreign-language">
+                                    <label for="employer-language">Which Foreign Language? &#42;</label><br>
+                                    <select class="selectpicker" data-width="80%" multiple data-live-search="true"
+                                            id="employer-language">
+                                        <option th:each="employerLanguage : ${allEmployerLanguage}"
+                                                th:selected="${allEmployerLanguagePreference.contains(employerLanguage.getEmployerLanguageID())}"
+                                                th:value="${employerLanguage.getEmployerLanguageID()}"
+                                                th:text="${employerLanguage.getEmployerLanguageName()}"></option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <label for="employer-notes">Notes</label>
+                                    <input type="text" class="form-control input-border" id="employer-notes"
+                                           th:value="${employer.getNotes()}">
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <label for="employer-status">Employer Status &#42;</label>
+                                    <select class="selectpicker" data-width="80%" id="employer-status">
+                                        <option th:each="employerStatus : ${allEmployerStatus}"
+                                                th:value="${employerStatus.getStatusOfEmployerID()}"
+                                                th:selected="${employerStatus.getStatusOfEmployerID() == employer.getStatusOfEmployerID()}"
+                                                th:text="${employerStatus.getStatusOfEmployerName()}"></option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-12 my-4">
+                                    <label for="local-authorities">LocalAuthorities &#42;</label><br>
+                                    <select class="selectpicker" data-width="90%" multiple data-live-search="true"
+                                            id="local-authorities">
+                                        <option th:each="employerLocalAuthority : ${allEmployerLocalAuthorities}"
+                                                th:selected="${allEmployerChosenLocalAuthorities.contains(employerLocalAuthority.getEmployerLocalAuthorityID())}"
+                                                th:value="${employerLocalAuthority.getEmployerLocalAuthorityID()}"
+                                                th:text="${employerLocalAuthority.getEmployerLocalAuthorityName()}"></option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row" id="alumniInfo">
+                                <div class="container my-3 p-0">
+                                    <h4>Alumni</h4>
+                                </div>
+                                <div class="col-md-12 " th:each="alumni : ${allEmployerAlumni}"
+                                     th:value="${'bananas_'+alumni.getEmployerAlumniID()}">
+                                    <div class="col-md-5 my-2 px-0">
+                                        <label>Full Name</label><br>
+                                        <input type="text" class="form-control input-border"
+                                               th:id="${alumni.getEmployerAlumniID()}"
+                                               name="update-employer-alumni-name"
+                                               th:value="${alumni.getEmployerAlumniName()}">
+                                    </div>
+                                    <div class="col-md-5 my-2 px-0">
+                                        <label>School</label><br>
+                                        <select class="selectpicker" data-width="100%" data-live-search="true"
+                                                name="update-employer-alumni-school">
+                                            <option type="text" class="form-control input-border"
+                                                    th:each="school : ${allSchoolNamesAndIds}"
+                                                    th:selected="${alumni.getEmployerAlumniSchoolID() == school.getSchoolID()}"
+                                                    th:value="${school.getSchoolID()}"
+                                                    th:text="${school.getSchoolName()}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 mt-5 px-0 pr-5">
+                                        <button type="button" class="close" onclick="deleteAlumni($(this))"
+                                                th:value="${alumni.getEmployerAlumniID()}"
+                                                th:id="'butao_'+${alumni.getEmployerAlumniID()}">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-5">
+                                <!-- 1. Alumni -->
+                                <div class="col-md-12">
+                                    <div class="col-md-5 px-0">
+                                        <label>Full Name</label><br>
+                                        <input type="text" class="form-control input-border"
+                                               name="create-employer-alumni-name">
+                                    </div>
+                                    <div class="col-md-5 px-0">
+                                        <label>School</label><br>
+                                        <select class="selectpicker" data-width="100%" multiple data-max-options="1"
+                                                data-live-search="true" name="create-employer-alumni-school">
+                                            <option type="text" class="form-control input-border"
+                                                    th:each="school : ${allSchoolNamesAndIds}"
+                                                    th:value="${school.getSchoolID()}"
+                                                    th:text="${school.getSchoolName()}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" id="documents">
+                                <div class="container mt-5 mb-2 p-0">
+                                    <h4>Employer's Documents</h4>
+                                </div>
+
+                                <ul class="list-group w-100">
+                                    <div class="col-md-12 px-0" th:each=" document : ${employerDocuments}">
+                                        <div class="col-md-10 my-0">
+                                            <a th:href="@{${document}}" target="_blank">
+                                                <li class="list-group-item"  th:text="${#strings.substring(document,52)}"></li>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-1 mt-3 pr-1">
+                                            <button type="button" class="close" th:attr="onclick=|deleteFile('${document}',$(this))|" >
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </ul>
+
+                                <!-- Upload Documents -->
+                                <form enctype="multipart/form-data" class="upload_form ml-3 mt-4" method="post" id="file-upload-form">
+                                    <label for="file-upload-input">Select file to upload</label>
+                                    <input type="file" id="file-upload-input" name="file">
+<!--                                        <button type="button" value="Submit" onclick="uploadFile()"></button>-->
+                                </form>
+                            </div>
+
+
+                            <div class="row" id="videos">
+                                <div class="container my-3 p-0">
+                                    <h4>Employer's Videos</h4>
+                                </div>
+
+                                    <ul class="list-group w-100">
+                                        <div class="col-md-12 px-0" th:each=" video : ${employerVideos}" >
+                                            <div class="col-md-10 my-0">
+                                                <a  th:href="@{${video}}" target="_blank">
+                                                    <li class="list-group-item"  th:text="${video}"></li>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-1 mt-3 pr-1">
+                                                <button type="button" class="close" th:attr="onclick=|deleteVideo('${video}',$(this))|">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </ul>
+
+                                    <!-- Upload Youtube video links -->
+                                    <div class="col-md-12 my-4">
+                                        <label for="video-link">Link to a video...</label>
+                                        <input type="text" class="form-control input-border" id="video-link" name="video">
+<!--                                        <button type="button" id="videoButton" value="Add video link" ></button>-->
+                                    </div>
+                                </div>
+
+                    <div class="container my-4 text-center">
+                        <button type="button" class="button--secondary text-center" onclick="updateThisEmployer()">Update Employer</button>
+                    </div>
+                </div>
+            </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Modal Delete -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog gel-content-container" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Delete Employer</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p th:text="'Are you sure you want to delete '+${employer.getEmployerName()}+' Profile Information?'"></p>
+                    <button type="button" class="btn buttonUpdate"
+                            th:onclick="|deleteEmployer(${employer.getEmployerID()})|">Yes
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Request -->
+    <div class="modal fade bd-example-modal-lg" id="requestEmployer" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog gel-content-container" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="modal-center p-0">
+                        <div class="container-fluid">
+                            <div class="container my-3 p-0">
+                                <h4 class="modal-title float-left">Request <span
+                                        th:text="${employer.getEmployerName()}"> Employer</span></h4>
+                                <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                        <form th:action="@{/ebe/requestEmployer}" th:object="${request}" method="post"
+                              onsubmit="requestEmployerEmail()">
+                            <div class="container-fluid">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="eventName">Event Name </label>
+                                        <input type="text" id="eventName" name="eventName" class="form-control input-border" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class=" text-left" for="eventDate">Event Date</label>
+                                        <input type="date" id="eventDate" class="form-control input-border"
+                                               name="eventDate" required>
+                                    </div>
+                                    <div class="form-group mb-0">
+                                        <label for="eventTime">Event Time</label>
+                                        <input type="time" id="eventTime" class="form-control input-border"
+                                               name="eventTime" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="eventType">Event Type</label>
+                                            <select class="selectpicker w-100 requestEmployer_selectPicker" required id="eventType"
+                                                    title="Nothing selected" name="eventType">
+                                                <option th:each="event : ${allEventTypes}"
+                                                        th:value="${event.getTypeOfEventName()}"
+                                                        th:text="${event.getTypeOfEventName()}"></option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="event-guests">Guest</label>
+                                            <input class="w-100 search-box" th:value="${employer.getEmployerName()}"
+                                                   id="event-guests" readonly name="guests" required>
+                                            <input type="hidden" id="EmployerId" name="EmployerID" th:value="${employer.getEmployerID()}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mt-3">
+                                    <div class="form-group">
+                                        <label for="event_notes">Event Notes</label>
+                                        <textarea type="time" id="event_notes"
+                                                  class="form-control input-border border-0"
+                                                  rows="5" name="eventNotes"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="container mt-5 mb-4 text-center">
+                                        <button type="submit" value="Submit" class="button--secondary text-center">
+                                            Request
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="gel-content-container">
+        <!-- Success Message -->
+        <div id="success_message" class="alert alert-success alert-dismissible fade d-none" role="alert">
+            <strong>Success!</strong> <span id="success_message_text"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <!-- Failed Message    -->
+        <div id="failed_message" class="alert alert-danger alert-dismissible fade d-none" role="alert">
+            <strong>Failed!</strong> <span id="failed_message_text"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <nav aria-label="breadcrumb" class="breadcrumb pl-4 breadcrumb_ebe">
+            <span>You are here:</span>
+            <ul>
+                <li>
+                    <a href="/ebe/" gel-processed="processed" title="Link to Home page">Home page</a>
+                </li>
+                <li>
+                    <a href="/ebe/employers" gel-processed="processed" title="Link to Employers page">Employers page</a>
+                </li>
+                <li>
+                    <a href="#" gel-processed="processed"
+                       title="Link to Current page title as a link to the current page"
+                       th:text="${employer.getEmployerName()}"></a>
+                </li>
+            </ul>
+        </nav>
+        <div class="container-headline mt-2 mb-5">
+            <span class="title-h2" th:text="${employer.getEmployerName()}"></span>
+            <input type="hidden" id="employer-id" th:value="${employer.getEmployerID()}"/>
+            <button th:if="${session.SESSION_Role =='CWS'}" type="button" id="deleteEvent" data-toggle="modal"
+                    data-target="#deleteModal" class="buttonDelete float-right">Delete
+            </button>
+            <button th:if="${session.SESSION_Role =='CWS'}" type="button" id="updateEvent" data-toggle="modal"
+                    data-target="#updateModal" class="buttonUpdate float-right">Update
+            </button>
+        </div>
+
+
+    <div class="container-fluid eventBackground">
+        <div class="row">
+            <div class="col-md-4" >
+                <img alt="Card image" th:src="${employer.getLogoLink()}" >
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Company Summary</h4>
+                        <p th:text="${employer.getCompanySummary()}"></p>
+                    </div>
+                    <div class="col-md-12" th:if="${session.SESSION_Role =='CWS'}">
+                        <h4>Notes</h4>
+                        <p th:text="${employer.getNotes()}"></p>
+                    </div>
+                    <div class="col-md-12" th:if="${session.SESSION_Role =='CWS'}">
+                        <h4>Employer Status</h4>
+                        <p th:each="employerStatus : ${allEmployerStatus}"
+                           th:remove="${employerStatus.getStatusOfEmployerID() == employer.getStatusOfEmployerID()} ? none : all"
+                           th:text="${employerStatus.getStatusOfEmployerName()}"></p>
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-5">
+                <div class="col-md-4 well ">
+                    <div class="my-2">
+                        <h6 class=" font-weight-bold">Sectors:</h6>
+                        <ul>
+                            <li class="my-2" th:each="employerIndustrySector : ${allEmployerIndustrySectors}"
+                                th:remove="${allEmployerChosenIndustrySectors.contains(employerIndustrySector.getEmployerIndustrySectorID())} ? none : all"
+                                th:text="${employerIndustrySector.getEmployerIndustrySectorName()}"></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-4 well">
+                    <h6 class="font-weight-bold">Cooperation Types:</h6>
+                    <ul>
+                        <li class="my-2" th:each="employerCooperationType : ${allEmployerCooperationType}"
+                            th:remove="${allEmployerChosenCooperationType.contains(employerCooperationType.getEmployerCooperationTypeID())} ? none : all"
+                            th:text="${employerCooperationType.getEmployerCooperationTypeName()}"></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 well">
+                    <h6 class="font-weight-bold">Curriculum Areas:</h6>
+                    <ul>
+                        <li class="my-2 " th:each="employerCurriculumAreas : ${allEmployerCurriculumAreas}"
+                            th:remove="${allEmployerChosenCurriculumAreas.contains(employerCurriculumAreas.getEmployerAreaOfCurriculumID())} ? none : all"
+                            th:text="${employerCurriculumAreas.getEmployAreaOfCurriculumName()}"></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="my-2 col-md-4">
+                    <span class="text-h5 font-weight-bold">Number of employees:</span>
+                    <span class="text-h5" th:each="employerNumberEmployees : ${allEmployerNumberOfEmployees}"
+                          th:remove="${employerNumberEmployees.getNumberOfEmployeesID() == employer.getNumberOfEmployeesID()} ? none : all"
+                          th:text="${employerNumberEmployees.getNumberOfEmployeesName()}"></span>
+                </div>
+
+                <div class="my-2 col-md-4" th:if="${session.SESSION_Role =='CWS'}">
+                    <span class="text-h5 font-weight-bold">Works with primary schools:</span>
+                    <span class="text-h5"
+                          th:remove="${allEmployerChosenPreferences.contains(1)}  ? none : all">Yes</span>
+                    <span class="text-h5"
+                          th:remove="${allEmployerChosenPreferences.contains(1)}  ? all : none">No</span>
+                </div>
+
+                <div class="my-2 col-md-4" th:if="${session.SESSION_Role =='CWS'}">
+                    <span class="text-h5 font-weight-bold">Works in Welsh:</span>
+                    <span class="text-h5"
+                          th:remove="${allEmployerChosenPreferences.contains(2)}  ? none : all">Yes</span>
+                    <span class="text-h5"
+                          th:remove="${allEmployerChosenPreferences.contains(2)}  ? all : none">No</span>
+                </div>
+
+                <div class="my-2 col-md-4" th:if="${session.SESSION_Role =='CWS'}">
+                    <span class="text-h5 font-weight-bold">Deliver in Welsh:</span>
+                    <span class="text-h5"
+                          th:remove="${allEmployerChosenPreferences.contains(3)}  ? none : all">Yes</span>
+                    <span class="text-h5"
+                          th:remove="${allEmployerChosenPreferences.contains(3)}  ? all : none">No</span>
+                </div>
+
+                <div class="my-2 col-md-4">
+                    <span class="text-h5 font-weight-bold">Has Apprenticeship programme:</span>
+                    <span class="text-h5"
+                          th:remove="${allEmployerChosenPreferences.contains(4)}  ? none : all">Yes</span>
+                    <span class="text-h5"
+                          th:remove="${allEmployerChosenPreferences.contains(4)}  ? all : none">No</span>
+                </div>
+
+                <div class="my-2 col-md-4" th:if="${session.SESSION_Role =='CWS'}">
+                    <span class="text-h5 font-weight-bold">Works in foreign languages:</span>
+                    <span class="text-h5" name="employer-language-checker"
+                          th:remove="${allEmployerChosenPreferences.contains(5)}  ? none : all">Yes</span>
+                    <span class="text-h5"
+                          th:remove="${allEmployerChosenPreferences.contains(5)}  ? all : none">No</span>
+                </div>
+
+                <div class="my-2 col-md-12" th:remove="${allEmployerChosenPreferences.contains(5)}  ? none : all" th:if="${session.SESSION_Role =='CWS'}">
+                    <span class="text-h5 font-weight-bold">Foreign languages:</span>
+                    <span th:each="employerLanguage,i : ${allEmployerLanguage}">
+                    <span th:remove="${allEmployerLanguagePreference.contains(employerLanguage.getEmployerLanguageID())} ? none : all"
+                          th:text="${employerLanguage.getEmployerLanguageName()} +' '"></span>
+                        <!--Add Comma-->
+                    <span th:value="${i}"
+                          th:remove="${i.count < allEmployerLanguagePreference.get(allEmployerLanguagePreference.size()-1)  && allEmployerLanguagePreference.contains(employerLanguage.getEmployerLanguageID())} ? none : all">,</span>
+                </span>
+
+                </div>
+            </div>
+    </div>
+
+
+        <div class="row">
+            <div class="col"></div>
+            <hr class="col-md-11 my-2 pl-2">
+            <div class="col"></div>
+        </div>
+
+        <div class="col-md-12 my-4">
+            <h3>Employer Info</h3>
+            <div class="row">
+                <div class="col-md-4 mt-2" >
+                    <h4 class="font-weight-bold">Address</h4>
+                    <h6 th:text="${employer.getEmployerAddressNumber()} +' '+ ${employer.getEmployerAddressStreet()}" th:if="${session.SESSION_Role =='CWS'}"></h6>
+                    <h6 th:text="${employer.getEmployerPostcode()}"></h6>
+                    <h6 th:text="${employer.getEmployerAddressCity()}" th:if="${session.SESSION_Role =='CWS'}"></h6>
+                </div>
+
+                <div class="col-md-4" th:if="${session.SESSION_Role =='CWS'}">
+                    <h4 class="font-weight-bold">Contact</h4>
+                    <div>
+                        <span th:text=" 'Name: ' + ${employer.getContactPersonNameSurname()}"></span>
+                    </div>
+                    <div>
+                        <span th:text=" 'Position: ' + ${employer.getContactPersonPosition()}"></span>
+                    </div>
+                    <div>
+                        <span th:text=" 'Email: ' + ${employer.getEmployerEmail()}"></span>
+                    </div>
+                    <div>
+                        <span th:text=" 'Contact Number: ' + ${employer.getEmployerPhone()}"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <h4 class="font-weight-bold">Social Media</h4>
+                    <div>
+                        <span th:text=" 'Twitter: '"></span>
+                        <a th:href="@{'https://'+${employer.getEmployerTwitter()}}"
+                           th:text="${employer.getEmployerTwitter()}"></a>
+
+                    </div>
+                    <div>
+                        <span th:text=" 'Facebook: '"></span>
+                        <a th:href="@{'https://'+${employer.getEmployerFB()}}"
+                           th:text="${employer.getEmployerFB()}"></a>
+                    </div>
+                    <div>
+                        <span th:text=" 'Website: '"></span>
+                        <a th:href="@{'https://'+${employer.getEmployerWebsite()}}"
+                           th:text="${employer.getEmployerWebsite()}"></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row" th:remove="${allEmployerLocalAuthorities.size()== 0} ? all : none">
+            <div class="col"></div>
+            <hr class="col-md-11 my-2 pl-2">
+            <div class="col"></div>
+        </div>
+
+        <div class="col-md-12 my-4" th:remove="${allEmployerLocalAuthorities.size()== 0} ? all : none">
+            <h3>Local Authorities</h3>
+            <table class="table table-hover">
+                <tbody  th:each="employerLocalAuthority : ${allEmployerLocalAuthorities}"
+                        th:remove="${allEmployerChosenLocalAuthorities.contains(employerLocalAuthority.getEmployerLocalAuthorityID())} ? none : all">
+                <td th:text="${employerLocalAuthority.getEmployerLocalAuthorityName()}">
+                </td>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row" th:remove="${allEmployerAlumni.size()== 0} ? all : none">
+            <div class="col"></div>
+            <hr class="col-md-11 my-2 pl-2">
+            <div class="col"></div>
+        </div>
+
+        <div class="col-md-12 my-4" th:remove="${allEmployerAlumni.size()== 0} ? all : none">
+            <h3>Alumni</h3>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Alumni Name</th>
+                        <th>Alumni School</th>
+                    </tr>
+                </thead>
+                <th:block th:each="alumni : ${allEmployerAlumni}">
+                    <tbody>
+                    <tr>
+                        <td th:utext="${alumni.getEmployerAlumniName()}"></td>
+                        <td th:each="school : ${allSchoolNamesAndIds}"
+                                  th:remove="${alumni.getEmployerAlumniSchoolID() == school.getSchoolID()} ? none : all"
+                                  th:utext="${school.getSchoolName()}">
+                        </td>
+                    </tr>
+                    </tbody>
+                </th:block>
+            </table>
+        </div>
+
+
+        <div class="row" th:remove="${allSchoolNamesAndIds.size()== 0} ? all : none">
+            <div class="col"></div>
+            <hr class="col-md-11 my-2 pl-2">
+            <div class="col"></div>
+        </div>
+
+        <div class="col-md-12 my-4" th:remove="${allSchoolNamesAndIds.size()== 0} ? all : none">
+            <h3>School Preferences</h3>
+            <table class="table table-hover">
+                <tbody th:each="school : ${allSchoolNamesAndIds}" th:remove="${allEmployerSchoolPreferences.contains(school.getSchoolID())} ? none : all">
+                    <td th:text="${school.getSchoolName()}"></td>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row" th:remove="${employerDocuments.size()== 0} ? all : none">
+            <div class="col"></div>
+            <hr class="col-md-11 my-2 pl-2">
+            <div class="col"></div>
+        </div>
+
+    <div class="col-md-12 my-4" th:remove="${employerDocuments.size()== 0} ? all : none">
+        <h3>Employer Documents</h3>
+        <table class="table table-hover">
+            <tbody th:each=" document : ${employerDocuments}">
+                <td>
+                    <a th:href="@{${document}}" target="_blank" th:text="${#strings.substring(document,52)}"></a>
+                </td>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row" th:remove="${employerVideos.size()== 0} ? all : none">
+        <div class="col"></div>
+        <hr class="col-md-11 my-2 pl-2">
+        <div class="col"></div>
+    </div>
+
+    <div class="col-md-12 my-4" th:remove="${employerVideos.size()== 0} ? all : none">
+        <h3>Employer Videos</h3>
+        <table class="table table-hover">
+            <tbody th:each=" video : ${employerVideos}">
+                <td>
+                <a th:href="@{${video}}" target="_blank" th:text="${video}"></a>
+                </td>
+            </tbody>
+        </table>
+    </div>
+
+        <div class="text-center mt-2" th:if="${session.SESSION_Role =='Teacher'}">
+            <button type="button" value="button" class="button button--primary text-center" data-toggle="modal"
+                    data-target="#requestEmployer">Request Employer
+            </button>
+        </div>
+    </div>
+</main>
+
+
+<footer th:replace="fragments/footerTemplate :: footer"></footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-styleguide.js"></script>-->
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-elements-loader.js"></script>-->
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-elements.js"></script>-->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+<!--<script th:src="@{../js/burger-button.js}" src="../js/burger-button.js"></script>-->
+<!--<script th:src="@{../js/employer.js}" src="../js/employer.js"></script>-->
+
+<script src="https://krzysztof-rachwal.github.io/ebecss/burger-button.js"></script>
+<script src="https://krzysztof-rachwal.github.io/ebecss/employer.js"></script>
+
+<script>
+    $('.selectpicker').selectpicker();
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/eot.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/woff.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/woff2.css">
+    <link rel="stylesheet" type="text/css" href="https://careerswales.gov.wales/styleguide/assets/css/gel-styleguide.css">
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/styleguide/assets/css/gel-elements.css"/>
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/sites/default/files/css/css_Ix2IjZRJPxhlyX0UzoOcvWoONN1wNDbQY7jrFiB85O0.css"/>
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/sites/default/files/css/css_yFFWPpQsZCFeHMtvOieuCWLiTEiz--tT0otLunNJdLs.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
+    <!-- Favicon    /-->
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-196x196.png" sizes="196x196"><link rel="icon" type="image/png" href="/styleguide/assets/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-128.png" sizes="128x128">
+
+    <link rel="stylesheet" type="text/css" href="https://krzysztof-rachwal.github.io/ebecss/ebe_style.css">
+<!--    <link th:href="@{../css/ebe_style.css}" href="../css/ebe_style.css" rel="stylesheet" />-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <title>Events</title>
+</head>
+
+<body>
+<header th:replace="fragments/headerTemplate :: header">
+</header>
+<main class="js-main-content-area">
+
+    <div class="gel-content-container">
+        <div id="success_message" class="alert alert-success alert-dismissible fade d-none" role="alert">
+            <strong>Success!</strong><span id="success_message_text"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+    <!-- Breadcrumbs -->
+    <nav aria-label="breadcrumb" class="breadcrumb pl-4 breadcrumb_ebe">
+        <span>You are here:</span>
+        <ul>
+            <li>
+                <a href="/ebe/" gel-processed="processed" title="Link to Home page">Home page</a>
+            </li>
+            <li>
+                <a href="#" gel-processed="processed" title="Link to Current page title as a link to the current page">Events page</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container-headline mt-2 mb-5">
+        <span class="title-h2">Events</span>
+        <a href="/ebe/add-events">
+            <button type="button" th:if="${session.SESSION_Role =='CWS'}" id="addEvent" class="button--secondary float-right" >Add Event</button>
+        </a>
+    </div>
+
+        <div class="flex-container">
+            <div class="col-lg-3 col-md-3">
+                <div class="mb-3">
+                    <label for="event-type">Event Type</label><br>
+                    <select class="selectpicker" data-width="100%" multiple data-live-search="true" id="event-type">
+                        <option  th:each="event : ${allEventTypes}" th:value="${event.getTypeOfEventID()}" th:text="${event.getTypeOfEventName()}"></option>
+                    </select>
+                </div>
+
+            <div class="mb-3">
+                <label>Name of Advisor</label><br>
+                <select class="selectpicker" data-width="100%" multiple data-live-search="true" id="event-advisor">
+                    <option  th:each="advisor : ${allAdvisorsNames}" th:value="${advisor}" th:text="${advisor}"></option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Event Preference</label><br>
+                <select class="selectpicker" data-width="100%" multiple id="event-preference">
+                    <option  value="1" >Promotes apprenticeship</option>
+                    <option  value="2" >Conducted in Welsh</option>
+                    <option  value="3" >Challenges gender stereotypes</option>
+                    <option  value="4" >Featured</option>
+                </select>
+            </div>
+
+            <a href="#">
+                <button type="button" id="filterButton" class="button--secondary w-100 text-center">Filter</button>
+            </a>
+
+        </div>
+
+        <div class="col-lg-9" style="border-left: grey 1px solid">
+            <div class="gel-content-container">
+
+                <div class="row">
+                    <!-- Search -->
+                    <div class="input-group col-7">
+                        <input type="text" class="search-box" onkeyup="searchEvents()" id="event-search"  placeholder=" Search">
+                        <div class="input-group-append">
+                            <button class="input-group-text input-border" onclick="searchEvents()">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            <button class="tooltip-button input-group-text" id="tooltip" data-toggle="tooltip" data-placement="top" data-html="true" data-original-title= "<span class='float-left'>Search By:</span><br><span class='float-left'>-Event Name</span><br><span class='float-left'>-Adviser Name</span><br><span class='float-left'>-Event Venue</span><br><span class='float-left'>-Event City</span><br> <span>-Event PostCode</span>">
+                                <i class="fa fa-info-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+
+
+                        <!-- Sorted by-->
+                        <div class="col-5 medium-dev" >
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text input-border">Sort By:</span>
+                                </div>
+                                <select class="form-control input-border selectpicker" name="event-sort-by">
+                                    <option selected="selected" value="Featured">Featured</option>
+                                    <option value="Name" data-val="DESC">Name (ASC)</option>
+                                    <option value="Name" data-val="ASC">Name (DESC)</option>
+                                    <option value="Date" data-val="DESC">Date (ASC)</option>
+                                    <option value="Date" data-val="ASC">Date (DESC)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+
+                <!-- Cards -->
+                <div class="list-events">
+                    <div class="gel-content-row event-card event-found event-filtered"  th:each="event : ${allEvents}" th:id="${event.getEventID()}">
+                        <article class="card js-card card--style-icon card--100" gel-processed="processed">
+                            <a th:href="@{/ebe/profile-event(eventId=${event.getEventID()})}" class="card__inner" gel-processed="processed">
+                                <div class="card__content">
+                                    <div class="content__image">
+                                        <div>
+                                            <img alt="Card image" src="https://cwebestorage.blob.core.windows.net/employerlogo/ccpSwaNu_400x400.jpg">
+                                        </div>
+                                    </div>
+                                    <div class="content__body">
+                                        <div class="body__title searchable" name="event-card-title" th:text="${#strings.capitalize(event.getEventName())}"></div>
+                                        <div class="body__body searchable">
+                                            <h5 class="searchable" name="event-card-date" th:text="${#dates.format(event.getEventDateAndTime(),'dd-MM-yyyy')}"></h5>
+                                            <h5 class="searchable" name="event-card-summary" th:text="${event.getEventSummary()} "></h5>
+
+                                                <!-- Hidden Data -->
+                                                <h5 class="searchable d-none" th:text="${#strings.capitalize(event.getEventVenueName())}"></h5>
+                                                <h5 class="searchable d-none" th:text="${#strings.capitalize(event.getEventAddressCity())}"></h5>
+                                                <h5 class="searchable d-none" th:text="${#strings.capitalize(event.getEventVenuePostcode())}"></h5>
+                                                <h5 class="searchable d-none" th:text="${#strings.capitalize(event.getNameOfAdviser())}"></h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer th:replace="fragments/footerTemplate :: footer"></footer>
+
+<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-styleguide.js"></script>-->
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-elements-loader.js"></script>-->
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-elements.js"></script>-->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+<!--<script th:src="@{../js/burger-button.js}" src="../js/burger-button.js"></script>-->
+<!--<script th:src="@{../js/events.js}" src="../js/events.js"></script>-->
+
+<script src="https://krzysztof-rachwal.github.io/ebecss/burger-button.js"></script>
+<script src="https://krzysztof-rachwal.github.io/ebecss/events.js"></script>
+
+<script>
+    $('.selectpicker').selectpicker();
+</script>
+
+
+</body>
+</html>
+

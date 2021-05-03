@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/eot.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/woff.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/woff2.css">
+    <link rel="stylesheet" type="text/css" href="https://careerswales.gov.wales/styleguide/assets/css/gel-styleguide.css">
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/styleguide/assets/css/gel-elements.css"/>
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/sites/default/files/css/css_Ix2IjZRJPxhlyX0UzoOcvWoONN1wNDbQY7jrFiB85O0.css"/>
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/sites/default/files/css/css_yFFWPpQsZCFeHMtvOieuCWLiTEiz--tT0otLunNJdLs.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Favicon    /-->
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-196x196.png" sizes="196x196"><link rel="icon" type="image/png" href="/styleguide/assets/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-128.png" sizes="128x128">
+
+    <link rel="stylesheet" type="text/css" href="https://krzysztof-rachwal.github.io/ebecss/ebe_style.css">
+<!--    <link th:href="@{../css/ebe_style.css}" href="../css/ebe_style.css" rel="stylesheet"/>-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <title>Get in Touch</title>
+</head>
+
+<body>
+
+<header th:replace="fragments/headerTemplate :: header"></header>
+<main class="js-main-content-area">
+    <div class="gel-content-container">
+        <!-- Success Feedback -->
+        <div id="success_message" class="alert alert-success alert-dismissible fade d-none" role="alert">
+            <strong>Success!</strong> <span id="success_message_text"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb" class="breadcrumb pl-4 breadcrumb_ebe">
+            <span>You are here:</span>
+            <ul>
+                <li>
+                    <a href="/ebe/" gel-processed="processed" title="Link to Home page">Home page</a>
+                </li>
+
+                <li>
+                    <a href="#" gel-processed="processed"
+                       title="Link to Current page title as a link to the current page">Contact Us Page page</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="container mt-2 mb-5 ml-0">
+            <h2 class="title-h2">Get in Touch</h2>
+        </div>
+
+        <form th:action="@{/ebe/contactUsEmail}" th:object="${email}" method="post" onSubmit="contactUsFeedback()">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="subject">Subject*</label>
+                            <input type="text" id="subject" class="form-control w-100" name="subject" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="message">Message*</label><br>
+                            <textarea id="message" name="message" class="form-control input-border" rows="10"
+                                      cols="30" required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="container mb-4 mt-5 text-center">
+                <button type="submit" value="Submit" class="button--secondary text-center">Submit</button>
+            </div>
+
+        </form>
+    </div>
+</main>
+
+<footer th:replace="fragments/footerTemplate :: footer"></footer>
+
+<script type="text/javascript" src="https://careerswales.gov.wales/styleguide//assets/js/jquery-3.0.0.min.js"></script>
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide//assets/js/gel-elements.js"></script>-->
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide//assets/js/gel-elements-loader.js"></script>-->
+
+<!--<script th:src="@{../js/contact_us.js}" src="../js/contact_us.js"></script>-->
+<!--<script th:src="@{../js/burger-button.js}" src="../js/burger-button.js"></script>-->
+
+<script src="https://krzysztof-rachwal.github.io/ebecss/burger-button.js"></script>
+<script src="https://krzysztof-rachwal.github.io/ebecss/contact_us.js"></script>
+
+</body>
+</html>

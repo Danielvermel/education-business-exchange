@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/eot.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/woff.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/woff2.css">
+    <link rel="stylesheet" type="text/css" href="https://careerswales.gov.wales/styleguide/assets/css/gel-styleguide.css">
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/styleguide/assets/css/gel-elements.css"/>
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/sites/default/files/css/css_Ix2IjZRJPxhlyX0UzoOcvWoONN1wNDbQY7jrFiB85O0.css"/>
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/sites/default/files/css/css_yFFWPpQsZCFeHMtvOieuCWLiTEiz--tT0otLunNJdLs.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
+    <!-- Favicon    /-->
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-196x196.png" sizes="196x196"><link rel="icon" type="image/png" href="/styleguide/assets/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-128.png" sizes="128x128">
+
+    <link rel="stylesheet" type="text/css" href="https://krzysztof-rachwal.github.io/ebecss/ebe_style.css">
+<!--    <link th:href="@{../css/ebe_style.css}" href="../css/ebe_style.css" rel="stylesheet"/>-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <title>Request</title>
+</head>
+
+<body>
+<header th:replace="fragments/headerTemplate :: header">
+</header>
+<main class="js-main-content-area">
+
+<!--MAIN CONTENT-->
+<div class="gel-content-container">
+    <!-- Success Feedback -->
+    <div id="success_message" class="alert alert-success alert-dismissible fade d-none" role="alert">
+        <strong>Success!</strong> <span id="success_message_text"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <nav aria-label="breadcrumb" class="breadcrumb pl-4 breadcrumb_ebe">
+        <span>You are here:</span>
+        <ul>
+            <li>
+                <a href="/ebe/" gel-processed="processed" title="Link to Home page">Home page</a>
+            </li>
+            <li>
+                <a href="#" gel-processed="processed" title="Link to Current page title as a link to the current page">Request page</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="container-headline mt-2 mb-5">
+        <span class="title-h2">Request</span>
+        <p class="mt-3">Select a type of request to submit.</p>
+    </div>
+    <div class="tabs-wrapper">
+        <ul class="tabs js-tabs" gel-processed="processed" id="myTabs" role="tablist">
+            <li class="tabs__tab js-tab tab--first" tabindex="-1">
+                <a id="general-tab" href="#general" class="tab__link  tab--is-active" data-toggle="tab" role="tab"
+                   aria-selected="true" aria-controls="general">
+                    <strong>Request Event</strong>
+                </a>
+            </li>
+            <li class="tabs__tab js-tab" tabindex="-1">
+                <a id="sector-tab" class="tab__link" data-toggle="tab" href="#sector" role="tab" aria-selected="false"
+                   aria-controls="sector">
+                    <strong>Request by industry sector</strong>
+                </a>
+            </li>
+            <li class="tabs__tab js-tab" tabindex="-1">
+                <a id="lang-tab" class="tab__link" data-toggle="tab" href="#lang" role="tab" aria-selected="false"
+                   aria-controls="lang">
+                    <strong>Request by language</strong>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-content" id="myTabContent">
+        <div id="general" class="tab-pane fade show active" role="tabpanel" aria-labelledby="general-tab">
+            <form th:action="@{/ebe/requestEvent}" th:object="${request}" method="post" onSubmit="requestFeedback()">
+                <div class="container-fluid">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="eventName">Event Name</label>
+                            <input type="text" id="eventName" name="eventName" class="form-control input-border" required>
+                        </div>
+                        <div class="form-group">
+                            <label class=" text-left" for="eventDate">Event Date</label>
+                            <input type="date" id="eventDate" class="form-control input-border" name="eventDate" required>
+                        </div>
+                        <div class="form-group mb-0">
+                            <label for="eventTime">Event Time</label>
+                            <input type="time" id="eventTime" class="form-control input-border" name="eventTime" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="eventType">Event Type</label>
+                                <select class="selectpicker w-100" id="eventType" name="eventType"
+                                        title="Nothing selected" required>
+                                    <option th:each="event : ${allEventTypes}"
+                                            th:value="${event.getTypeOfEventName()}"
+                                            th:text="${event.getTypeOfEventName()}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="guests">Guest(s)</label>
+                                <select class="selectpicker form-control"  multiple data-live-search="true"
+                                        id="guests" name="guests" required>
+                                    <option th:each="emp : ${allEmployers}"
+                                            th:value="${emp.getEmployerName()}"
+                                            th:text="${emp.getEmployerName()}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-3">
+                        <div class="form-group">
+                            <label for="eventNotes">Event Notes</label>
+                            <textarea id="eventNotes" class="form-control input-border border-0"
+                                      rows="5" name="eventNotes" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="container mt-5 mb-4 text-center">
+                            <button type="submit" value="submit" class="button--secondary text-center">Request</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="lang" class="tab-pane fade" role="tabpanel" aria-labelledby="lang-tab">
+            <form th:action="@{/ebe/requestByLanguage}" th:object="${request}" method="post" onsubmit="requestFeedback()">
+                <div class="container-fluid">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="eventName">Event Name</label>
+                            <input type="text" id="event_name_sector" name="eventName"
+                                   class="form-control input-border" required>
+                        </div>
+                        <div class="form-group">
+                            <label class=" text-left" for="eventDate">Event Date</label>
+                            <input type="date" id="event_date_sector" class="form-control input-border"
+                                   name="eventDate" required>
+                        </div>
+                        <div class="form-group mb-0">
+                            <label for="eventTime">Event Time</label>
+                            <input type="time" id="event_time_sector" class="form-control input-border"
+                                   name="eventTime" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="event-type2" class="d-block">Event Type</label>
+                                <select class="selectpicker w-100"
+                                        id="event-type2" name="eventType" title="Nothing selected" required>
+                                    <option th:each="event : ${allEventTypes}"
+                                            th:value="${event.getTypeOfEventName()}"
+                                            th:text="${event.getTypeOfEventName()}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="language">Language</label>
+                                <select class="selectpicker form-control" multiple data-live-search="true"
+                                        id="language" name="language" required>
+                                    <option th:each="lang : ${allLanguages}"
+                                            th:value="${lang.getEmployerLanguageName()}"
+                                            th:text="${lang.getEmployerLanguageName()}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-3">
+                        <div class="form-group">
+                            <label for="eventNotes">Event Notes</label>
+                            <textarea id="event_notes_sector" class="form-control input-border border-0"
+                                      rows="5" name="eventNotes" required></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="container mt-5 mb-4 text-center">
+                            <button type="submit" value="Submit" class="button--secondary text-center">Request</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="sector" class="tab-pane fade" role="tabpanel" aria-labelledby="sector-tab">
+            <form th:action="@{/ebe/requestByIndustry}" th:object="${request}" method="post" onsubmit="requestFeedback()">
+                <div class="container-fluid">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="eventName">Event Name</label>
+                            <input type="text" id="event_name_lang" name="eventName"
+                                   class="form-control input-border" required>
+                        </div>
+                        <div class="form-group">
+                            <label class=" text-left" for="eventDate">Event Date</label>
+                            <input type="date" id="event_date_lang" class="form-control input-border"
+                                   name="eventDate" required>
+                        </div>
+                        <div class="form-group mb-0">
+                            <label for="eventTime">Event Time</label>
+                            <input type="time" id="event_time_lang" class="form-control input-border"
+                                   name="eventTime" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="event-type3" class="d-block">Event Type</label>
+                                <select class="selectpicker w-100"
+                                        id="event-type3" name="eventType" title="Nothing selected" required>
+                                    <option th:each="event : ${allEventTypes}"
+                                            th:value="${event.getTypeOfEventName()}"
+                                            th:text="${event.getTypeOfEventName()}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sectorPRef">Sector</label>
+                                <select class="selectpicker form-control" multiple data-live-search="true"
+                                        id="sectorPref" name="industry" required>
+                                    <option th:each="employerIndustrySector : ${allIndustrySectors}"
+                                            th:value="${employerIndustrySector.getEmployerIndustrySectorName()}"
+                                            th:text="${employerIndustrySector.getEmployerIndustrySectorName()}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-3">
+                        <div class="form-group">
+                            <label for="eventNotes">Event Notes</label>
+                            <textarea id="event_notes_lang" class="form-control input-border border-0"
+                                      rows="5" name="eventNotes" required></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="container mt-5 mb-4 text-center">
+                            <button type="submit" value="Submit" class="button--secondary text-center">Request</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+</main>
+
+<footer th:replace="fragments/footerTemplate :: footer"></footer>
+<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-styleguide.js"></script>-->
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-elements-loader.js"></script>-->
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-elements.js"></script>-->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+
+<!--<script th:src="@{../js/request.js}" src="../js/request.js"></script>-->
+<!--<script th:src="@{../js/burger-button.js}" src="../js/burger-button.js"></script>-->
+
+<script src="https://krzysztof-rachwal.github.io/ebecss/burger-button.js"></script>
+<script src="https://krzysztof-rachwal.github.io/ebecss/request.js"></script>
+
+<script>$('selectpicker').selectpicker();</script>
+
+</body>
+</html>

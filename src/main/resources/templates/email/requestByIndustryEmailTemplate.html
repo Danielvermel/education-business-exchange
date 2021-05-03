@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+</head>
+<a href="https://careerswales.gov.wales/" class="ignore-link" title="Careers Wales home">
+    <img class="content--logo logo--mob-en" src="https://careerswales.gov.wales/styleguide/assets/img/logos/cw-logo-mob-en.svg" role="presentation" width="60%" height="40%" alt="">
+</a>
+
+<hr style="width:60%;text-align:left;height:2px;border-width:0;color:gray;background-color:gray;margin-left:0.5em">
+
+<div style=" font-family:Arial, Helvetica, sans-serif;">
+    <p><b>You have a new request for </b> <span th:text="${eventName}"></span></p>
+    <p><b>School name: </b> <span th:text="${schoolName}"></span></p>
+    <p><b>Local Authority:</b> <span th:text="${localAuth}"></span></p>
+    <p><b>Date: </b> <span th:text="${eventDate}"></span></p>
+    <p><b>Time: </b> <span th:text="${eventTime}"></span></p>
+    <p><b>Additional notes:</b></p>
+    <p th:text="${eventNotes}"></p>
+    <p><b>Proposed industry type(s):</b></p>
+    <ul th:each="industry : ${industry}">
+        <li th:text="${industry}"></li>
+    </ul>
+</div>
+
+<hr style="width:60%;text-align:left;height:2px;border-width:0;color:gray;background-color:gray;margin-left:0.5em">
+
+<div style=" font-family:Arial, Helvetica, sans-serif;">
+    <p>For further support or careers advice call <a href="tel:0800 028 4844">0800 028 4844</a></p>
+    <a href="#" class="social social--contact-email"  title="Link to post@careerswales.com">post@careerswales.com</a>
+    <a href="#" class="social social--contact-webchat"  title="Link to Webchat">Webchat</a>
+</div>
+
+</body>
+</html>

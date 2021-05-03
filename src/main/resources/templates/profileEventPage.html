@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/eot.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/woff.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/woff2.css">
+    <link rel="stylesheet" type="text/css" href="https://careerswales.gov.wales/styleguide/assets/css/gel-styleguide.css">
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/styleguide/assets/css/gel-elements.css"/>
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/sites/default/files/css/css_Ix2IjZRJPxhlyX0UzoOcvWoONN1wNDbQY7jrFiB85O0.css"/>
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/sites/default/files/css/css_yFFWPpQsZCFeHMtvOieuCWLiTEiz--tT0otLunNJdLs.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
+    <!-- Favicon    /-->
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-196x196.png" sizes="196x196"><link rel="icon" type="image/png" href="/styleguide/assets/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-128.png" sizes="128x128">
+
+    <link rel="stylesheet" type="text/css" href="https://krzysztof-rachwal.github.io/ebecss/ebe_style.css">
+<!--    <link th:href="@{../css/ebe_style.css}" href="../css/ebe_style.css" rel="stylesheet" />-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <title th:text="${event.getEventName()}">Event</title>
+</head>
+
+<header th:replace="fragments/headerTemplate :: header">
+</header>
+<main class="js-main-content-area">
+
+    <!-- Modal Update -->
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog gel-content-container" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <form>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="container my-3 p-0">
+                                    <h4 class="modal-title float-left">Update Event Information</h4>
+                                    <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="event-name">Event Name &#42;</label>
+                                        <input type="text" class="form-control form-required" th:value="${event.getEventName()}" id="event-name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="event-type">Event Type &#42;</label><br>
+                                        <select class="selectpicker" data-width="80%" data-live-search="true" id="event-type">
+                                            <option  th:each="eventTypes : ${allEventTypes}"  th:selected="${eventTypes.getTypeOfEventID()} == ${event.getTypeOfEventID()}"  th:value="${eventTypes.getTypeOfEventID()}" th:text="${eventTypes.getTypeOfEventName()}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="form-group">
+                                        <label for="event-summary">Event Summary &#42;</label>
+                                        <textarea class="form-control form-required text-area-w-80" rows="3" id="event-summary" th:text="${event.getEventSummary()}" th:value="${event.getEventSummary()}"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Address &#42;</label>
+                                    <div class="group-input">
+                                        <div class="input-group-prepend">
+                                            <input type="text" id="event-street" class="form-control border-right input-sm w-80 form-required" th:value="${event.getEventAddressStreet()}">
+                                            <input type="text" id="event-number" class="form-control w-80 form-required" th:value="${event.getEventAddressNumber()}">
+                                        </div>
+                                        <div class="input-group-prepend mt-1">
+                                            <input type="text" id="event-postcode" class="form-control border-right w-80 form-required " th:value="${event.getEventVenuePostcode()}">
+                                            <input type="text" id="event-city" class="form-control w-80 form-required" th:value="${event.getEventAddressCity()}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="event-date">Event Date &#42;</label>
+                                        <input type="date" class="form-control form-required" id="event-date" th:value="${event.getEventDate()}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="event-time">Event Time &#42;</label>
+                                        <input type="time" class="form-control form-required" id="event-time" th:value="${#dates.format(event.getEventTime(),'HH:mm')}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="event-venue">Event Venue</label>
+                                        <input type="text" class="form-control" id="event-venue" th:value="${event.getEventVenueName()}">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 ">
+                                    <div class="form-group">
+                                        <label for="adviser-name">Adviser Name</label>
+                                        <input type="text" class="form-control " id="adviser-name" th:value="${event.getNameOfAdviser()}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="no-attendees">Number of Attendees &#42;</label>
+                                        <input type="number" min="0" class="form-control " id="no-attendees" th:value="${event.getNumberOfAttendees()}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="employers-attending">Employers Attending &#42;</label><br>
+                                        <select class="selectpicker" multiple data-live-search="true" data-width="80%" id="employers-attending" >
+                                            <option  th:each="employer : ${AllEmployerNamesAndIds}" th:selected="${EventEmployersIDs.contains(employer.getEmployerID())}" th:value="${employer.getEmployerID()}" th:text="${employer.getEmployerName()}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="schools-attending">Schools Attending &#42;</label><br>
+                                        <select class="selectpicker" multiple data-live-search="true" data-width="80%" id="schools-attending">
+                                            <option  th:each="school : ${allSchoolNamesAndIds}"   th:selected="${EventSchoolsIDs.contains(school.getSchoolID())}"th:value="${school.getSchoolID()}" th:text="${school.getSchoolName()}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Can the event be conducted in Welsh? &#42;</label>
+                                        <select  id="conducted-welsh">
+                                            <option value="1" th:selected="${event.getPromotesWelshLanguage()== true}">Yes</option>
+                                            <option value="0" th:selected="${event.getPromotesWelshLanguage()== false}">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Does the event promote apprenticeship? &#42;</label>
+                                        <select  id="promote-apprenticheship">
+                                            <option value="1" th:selected="${event.getPromotesApprenticeships() == true}">Yes</option>
+                                            <option value="0" th:selected="${event.getPromotesApprenticeships() == false}">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Does the event challenger gender stereotypes? &#42;</label>
+                                        <select  id="challenger-gender">
+                                            <option value="1" th:selected="${event.getChallengesGenderStereotypes() == true}">Yes</option>
+                                            <option value="0" th:selected="${event.getChallengesGenderStereotypes()== false}">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Is the Event going to be Public? &#42;</label>
+                                        <select  id="event-public">
+                                            <option value="1" th:selected="${event.getPublic()== true}">Yes</option>
+                                            <option value="0" th:selected="${event.getPublic()== false}">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Is the Event Cancelled? &#42;</label>
+                                    <select  id="event-cancelled">
+                                        <option value="1" th:selected="${event.getCancelled()== true}">Yes</option>
+                                        <option value="0" th:selected="${event.getCancelled()== false}">No</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Is the Event featured? &#42;</label>
+                                    <select  id="event-featured">
+                                        <option value="1" th:selected="${event.getFeatured()== true}">Yes</option>
+                                        <option value="0" th:selected="${event.getFeatured()== false}">No</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mx-3" id="documents">
+                                <label for="eventDocuments" class="mb-1">Event's Documents</label>
+                                <ul class="list-group w-100 mb-3" id="eventDocuments">
+                                    <div class="col-md-12 px-0" th:each=" document : ${eventDocuments}">
+                                        <div class="col-md-11 px-0">
+                                            <a th:href="@{${document}}" target="_blank">
+                                                <li class="list-group-item"  th:text="${#strings.substring(document,49)}"></li>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-1 mt-3 pr-1">
+                                            <button type="button" class="close" th:attr="onclick=|deleteFile('${document}',$(this))|" >
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </ul>
+
+                                <!-- Upload Documents -->
+                                <form enctype="multipart/form-data" class="upload_form ml-3 mt-4" method="post" id="file-upload-form">
+<!--                                    <label for="file-upload-input">Select file to upload</label>-->
+                                    <input type="file" id="file-upload-input" name="file">
+                                    <!--                                        <button type="button" value="Submit" onclick="uploadFile()"></button>-->
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="container my-4 text-center">
+                        <button type="button" class="button--secondary text-center" onclick="UpdateThisEvent()">Update Event</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Modal Delete -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog gel-content-container" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Delete Event</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p  th:text="'Are you sure you want to delete '+ ${event.getEventName()} + ' event?'">
+                    </p>
+                    <button type="button" class="btn buttonUpdate" th:onclick="|deleteEvent(${event.getEventID()})|">Yes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="gel-content-container">
+        <!-- Success Message        -->
+        <div id="success_message" class="alert alert-success alert-dismissible fade d-none" role="alert">
+            <strong>Success!</strong><span id="success_message_text"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <!-- Failed Message    -->
+        <div id="failed_message" class="alert alert-danger alert-dismissible fade d-none" role="alert">
+            <strong>Failed!</strong> <span id="failed_message_text"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+    <!-- Breadcrumbs -->
+    <nav aria-label="breadcrumb" class="breadcrumb pl-4 breadcrumb_ebe">
+        <span>You are here:</span>
+        <ul>
+            <li>
+                <a href="/ebe/" gel-processed="processed" title="Link to Home page">Home page</a>
+            </li>
+            <li>
+                <a href="/ebe/events" gel-processed="processed" title="Link to Events page">Events page</a>
+            </li>
+            <li>
+                <a href="#" gel-processed="processed" title="Link to Current page title as a link to the current page" th:text="${event.getEventName()}"></a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container-headline mt-2 mb-5 pl-4">
+        <span class="title-h2" th:text="${#strings.capitalize(event.getEventName())}"></span>
+        <input type="hidden" th:value="${event.getEventID()}" id="event-id"/>
+        <button type="button" id="deleteEvent" th:if="${session.SESSION_Role =='CWS'}" data-toggle="modal" data-target="#deleteModal" class="buttonDelete float-right">Delete</button>
+        <button type="button" id="updateEvent" th:if="${session.SESSION_Role =='CWS'}" data-toggle="modal" data-target="#updateModal" class="buttonUpdate float-right">Update</button>
+    </div>
+
+    <div class="container-fluid px-4 eventBackground">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <span class="font-weight-bold h5">Event Summary </span>
+                    <p th:text="${event.getEventSummary()}"></p>
+                </div>
+            </div>
+
+                <div class="col-md-6">
+                    <div class="form-group ">
+                        <span class="font-weight-bold h5">Event Type </span>
+                        <p th:each="eventTypes : ${allEventTypes}"  th:remove="${eventTypes.getTypeOfEventID() == event.getTypeOfEventID()} ? none : all" th:value="${eventTypes.getTypeOfEventID()}" th:text="${eventTypes.getTypeOfEventName()}"></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group ">
+                        <span class="font-weight-bold h5">Event Date </span>
+                        <p th:text="${#dates.format(event.getEventDate(),'dd-MM-yyyy')}"></p>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <span class="font-weight-bold h5">Event Time </span>
+                        <p th:text="${#dates.format(event.getEventTime(),'HH:mm')}"></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <span class="font-weight-bold h5">Event Venue </span>
+                        <p th:text="${event.getEventVenueName()}"></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <span class="font-weight-bold h5">Event Address </span>
+                        <p th:text="${event.getEventAddressNumber()} +', ' + ${event.getEventAddressStreet()} +', ' + ${event.getEventAddressCity()} + ', ' + ${event.getEventVenuePostcode()} "></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <span class="font-weight-bold h5">Adviser Name </span>
+                        <p th:text="${event.getNameOfAdviser()}"></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group" th:if="${session.SESSION_Role =='CWS'}">
+                        <span class="font-weight-bold h5">Number of Attendees </span>
+                        <p th:text="${event.getNumberOfAttendees()}"></p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group" th:if="${session.SESSION_Role =='CWS'}">
+                        <span class="font-weight-bold h5">Can the event be conducted in Welsh? </span>
+                        <p th:remove="${event.getPromotesWelshLanguage()== true}  ? none : all">Yes</p>
+                        <p th:remove="${event.getPromotesWelshLanguage()== false}  ? none : all">No</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group"th:if="${session.SESSION_Role =='CWS'}">
+                        <span class="font-weight-bold h5">Does the event promote apprenticeship? </span>
+                        <p th:remove="${event.getPromotesApprenticeships()== true}  ? none : all">Yes</p>
+                        <p th:remove="${event.getPromotesApprenticeships()== false}  ? none : all">No</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group" th:if="${session.SESSION_Role =='CWS'}">
+                        <span class="font-weight-bold h5">Does the event challenger gender stereotypes? </span>
+                        <p th:remove="${event.getChallengesGenderStereotypes()== true}  ? none : all">Yes</p>
+                        <p th:remove="${event.getChallengesGenderStereotypes()== false}  ? none : all">No</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group" th:if="${session.SESSION_Role =='CWS'}">
+                        <span class="font-weight-bold h5">Is the Event Public? </span>
+                        <p th:remove="${event.getPublic()== true}  ? none : all">Yes</p>
+                        <p th:remove="${event.getPublic()== false}  ? none : all">No</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group" th:if="${session.SESSION_Role =='CWS'}">
+                        <span class="font-weight-bold h5">Is the Event Cancelled? </span>
+                        <p th:remove="${event.getCancelled()== true}  ? none : all">Yes</p>
+                        <p th:remove="${event.getCancelled()== false}  ? none : all">No</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group" th:if="${session.SESSION_Role =='CWS'}">
+                        <span class="font-weight-bold h5">Is the Event featured? </span>
+                        <p th:remove="${event.getFeatured() == true}  ? none : all">Yes</p>
+                        <p th:remove="${event.getFeatured() == false}  ? none : all">No</p>
+                    </div>
+                </div>
+            </div>
+
+        <div class="row" th:remove="${eventDocuments.size()== 0} ? all : none">
+            <hr class="col-md-11 mt-5 ml-3">
+        </div>
+
+            <div class="col-md-12 px-0 pr-4" th:remove="${eventDocuments.size()== 0} ? all : none">
+                <h3>Event Documents</h3>
+                <table class="table table-hover">
+                    <tbody th:each=" document : ${eventDocuments}">
+                        <td>
+                            <a   th:href="@{${document}}" target="_blank" th:text="${#strings.substring(document,49)}"></a>
+                        </td>
+                    </tbody>
+                </table>
+            </div>
+
+        <div class="row" th:if="${session.SESSION_Role =='CWS'}" th:remove="${allSchoolNamesAndIds.size()== 0 && AllEmployerNamesAndIds.size()==0} ? all : none">
+            <hr class="col-md-11 mt-5 ml-3">
+        </div>
+
+            <div class="row row pl-2 pr-4" th:if="${session.SESSION_Role =='CWS'}" th:remove="${allSchoolNamesAndIds.size()== 0 && AllEmployerNamesAndIds.size()==0} ? all : none">
+                <div class="mb-auto p-2 col-md-6 well2 well3">
+                    <label class="font-weight-bold h5">Schools Attending</label>
+                    <ul class="list-group">
+                        <a th:each="school : ${allSchoolNamesAndIds}">
+                            <li class="list-group-item" th:remove="${EventSchoolsIDs.contains(school.getSchoolID())} ? none : all" th:text="${school.getSchoolName()}"></li>
+                        </a>
+                    </ul>
+                </div>
+                <div class="mb-auto p-2 col-md-6 well2 well3">
+                    <label class="font-weight-bold h5">Employers Attending</label>
+                    <ul class="list-group">
+                        <a th:each="employer : ${AllEmployerNamesAndIds}" th:href="@{/ebe/profile-employer(employerId=${employer.getEmployerID()})}">
+                            <li class="list-group-item"  th:remove="${EventEmployersIDs.contains(employer.getEmployerID())} ? none : all" th:text="${employer.getEmployerName()}"></li>
+                        </a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Modal Show Interest -->
+        <div class="modal fade bd-example-modal-lg" id="interestEvent" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalCenterTitle" aria-hidden="true" th:if="${session.SESSION_Role =='Teacher'}">
+            <div class="modal-dialog gel-content-container" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="modal-center p-0">
+                            <div class="container-fluid">
+                                <div class="container my-3 p-0">
+                                    <h4 class="modal-title float-left">Show <span>Interest</span> </h4>
+                                    <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <form th:action="@{/ebe/event/showInterest}" th:object="${request}" method="post" onSubmit="EventProfileShowInterest()">
+                                <div class="container-fluid">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="event_name_interest">Event Name</label>
+                                            <input type="text" id="event_name_interest" name="eventName" readonly th:value="${event.getEventName()}" class="form-control w-80" required >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class=" text-left" for="event_date_show_interest">Event Date</label>
+                                            <input type="date" id="event_date_show_interest" name="eventDate" readonly th:value="${event.getEventDate()}" class="form-control  w-80" required >
+                                            <input type="hidden" id="eventID" name="eventID" th:value="${event.getEventID()}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-0">
+                                            <label for="event_time_show_interest">Event Time</label>
+                                            <input type="time" id="event_time_show_interest"name="eventTime" readonly th:value="${#dates.format(event.getEventTime(),'HH:mm')}"  class="form-control w-80" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mt-3">
+                                        <div class="form-group">
+                                            <label for="event_notes">Notes</label>
+                                            <textarea type="time" id="event_notes" class="form-control" rows="5" name="eventNotes"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                    <div class="row">
+                                        <div class="container mt-5 mb-4 text-center">
+                                            <button type="submit"  value="Submit" class="button--secondary text-center">Send</button>
+                                        </div>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-2" th:if="${session.SESSION_Role =='Teacher'}">
+        <button type="button" class="button button--primary text-center" data-toggle="modal"
+                data-target="#interestEvent">Show Interest
+        </button>
+    </div>
+</div>
+</main>
+<footer th:replace="fragments/footerTemplate :: footer"></footer>
+
+<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-styleguide.js"></script>-->
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-elements-loader.js"></script>-->
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-elements.js"></script>-->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+<!--<script th:src="@{../js/burger-button.js}" src="../js/burger-button.js"></script>-->
+<!--<script th:src="@{../js/events.js}" src="../js/events.js"></script>-->
+
+<script src="https://krzysztof-rachwal.github.io/ebecss/burger-button.js"></script>
+<script src="https://krzysztof-rachwal.github.io/ebecss/events.js"></script>
+
+<script>
+    $('.selectpicker').selectpicker();
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/eot.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/woff.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fortawesome.com/kits/747c3a74/publications/latest/woff2.css">
+    <link rel="stylesheet" type="text/css" href="https://careerswales.gov.wales/styleguide/assets/css/gel-styleguide.css">
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/styleguide/assets/css/gel-elements.css"/>
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/sites/default/files/css/css_Ix2IjZRJPxhlyX0UzoOcvWoONN1wNDbQY7jrFiB85O0.css"/>
+    <link rel="stylesheet" media="all" href="https://careerswales.gov.wales/sites/default/files/css/css_yFFWPpQsZCFeHMtvOieuCWLiTEiz--tT0otLunNJdLs.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
+    <!-- Favicon    /-->
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-196x196.png" sizes="196x196"><link rel="icon" type="image/png" href="/styleguide/assets/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://careerswales.gov.wales/styleguide/assets/img/favicon/favicon-128.png" sizes="128x128">
+
+    <link rel="stylesheet" type="text/css" href="https://krzysztof-rachwal.github.io/ebecss/ebe_style.css">
+<!--    <link th:href="@{../css/ebe_style.css}" href="../css/ebe_style.css" rel="stylesheet" />-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <title th:text="${vacancy.getVacancyName()}">Vacancy</title>
+</head>
+
+<header th:replace="fragments/headerTemplate :: header"></header>
+<main class="js-main-content-area">
+
+    <!-- Modal Update -->
+    <div class="modal fade bd-example-modal-lg" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog gel-content-container" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="container my-3 p-0">
+                                    <h4 class="modal-title float-left">Update Vacancy Information</h4>
+                                    <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="vacancy-name">Vacancy Name &#42;</label>
+                                    <input type="text" class="form-control form-required" id="vacancy-name" th:value="${vacancy.getVacancyName()}">
+                                    <input type="hidden" id="vacancy-old-name" th:value="${vacancy.getVacancyName()}"/>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="employer-name" class="mb-1">Employer Name &#42;</label><br>
+                                    <select class="selectpicker" data-width="80%" data-live-search="true" id="employer-name">
+                                        <option  th:each="employer : ${AllEmployerNamesAndIds}" th:selected="${employer.getEmployerName()} ==  ${vacancyEmployerName.getEmployerName()}" th:value="${employer.getEmployerID()}" th:text="${employer.getEmployerName()}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="vacancy-summary" class="mb-1">Vacancy Description &#42;</label>
+                                    <textarea class="form-control form-required text-area-w-80" id="vacancy-summary" rows="5" th:text="${vacancy.getVacancySummary()}"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group pb-3">
+                                    <label for="web-link" class="mb-1">Link to website</label>
+                                    <input type="text" class="form-control w-80" id="web-link" th:value="${vacancy.getVacancyLink()}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="post-code" class="mb-1">Post Code &#42;</label>
+                                    <input type="text" class="form-control form-required w-80" id="post-code" th:value="${vacancy.getVacancyPostcode()}">
+                                    <input type="hidden" id="old-post-code" th:value="${vacancy.getVacancyPostcode()}"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="start-date" class="mb-1">Start Date &#42;</label>
+                                    <input type="date" class="form-control form-required w-80" id="start-date" th:value="${vacancy.getStartOfVacancy()}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="closing-date" class="mb-1">Closing Date &#42;</label>
+                                    <input type="date" class="form-control form-required w-80" id="closing-date" th:value="${vacancy.getDeadlineForApplication()}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="vacancy-type" class="mb-1">Type of Vacancy &#42;</label>
+                                    <select class="selectpicker" id="vacancy-type" data-width="80%">
+                                        <option th:each="vacancyType : ${allVacanciesTypes}" th:selected="${vacancy.getTypeOfVacancyID()} == ${vacancyType.getTypeOfVacancyID()}" th:value="${vacancyType.getTypeOfVacancyID()}" th:text="${vacancyType.getTypeOfVacancyName()}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="occup-code" class="mb-1">Occupational Code &#42;</label>
+                                    <select class="selectpicker" id="occup-code" data-width="80%">
+                                        <option th:each="vacancyOccupationalCode : ${allVacanciesOccupationalCodes}"  th:selected="${vacancy.getOccupationalCodeID()} == ${vacancyOccupationalCode.getOccupationalCodeID()}" th:value="${vacancyOccupationalCode.getOccupationalCodeID()}" th:text="${vacancyOccupationalCode.getOccupationalCodeName()}"></option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="appl-method" class="mb-1">Application methods &#42;</label>
+                                    <select class="selectpicker" id="appl-method" data-width="80%">
+                                        <option th:each="vacancyApplicationMethods : ${allVacanciesApplicationMethods}" th:selected="${vacancy.getApplicationMethodID()} == ${vacancyApplicationMethods.getApplicationMethodID()}" th:value="${vacancyApplicationMethods.getApplicationMethodID()}" th:text="${vacancyApplicationMethods.getApplicationMethodName()}"></option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="vacancy-type" class=" mb-1">Status of Vacancy &#42;</label>
+                                    <select class="selectpicker" id="vacancy-status" data-width="80%">
+                                        <option th:each="vacancyStatus : ${allVacanciesStatus}" th:selected="${vacancy.getStatusOfVacancyID()} == ${vacancyStatus.getStatusOfVacancyID()}" th:value="${vacancyStatus.getStatusOfVacancyID()}" th:text="${vacancyStatus.getStatusOfVacancyName()}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="vacancyDocuments" class="mb-1">Vacancy's Documents</label>
+                                <ul class="list-group w-100 mb-3" id="vacancyDocuments">
+                                    <div class="col-md-12 px-0" th:each=" document : ${vacancyDocuments}">
+                                        <div class="col-md-11 px-0">
+                                            <a th:href="@{${document}}" target="_blank">
+                                                <li class="list-group-item"  th:text="${#strings.substring(document,51)}"></li>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-1 mt-3 pr-1">
+                                            <button type="button" class="close" th:attr="onclick=|deleteFile('${document}',$(this))|" >
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </ul>
+
+                                <!-- Upload Documents -->
+                                <form enctype="multipart/form-data" class="upload_form ml-3 mt-4" method="post" id="file-upload-form">
+<!--                                    <label for="file-upload-input">Select file to upload</label>-->
+                                    <input type="file" id="file-upload-input" name="file">
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="container my-4 text-center">
+                        <button type="button" class="button--secondary text-center" onclick="UpdateThisVacancy()">Update Vacancy</button>
+                    </div>
+            </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Delete -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog gel-content-container" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Delete Vacancy</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p th:text="'Are you sure you want to delete '+${vacancy.getVacancyName()}+' Vacancy Information?'"></p>
+                    <button type="button" class="btn buttonUpdate" th:onclick="|deleteVacancy(${vacancy.getVacancyID()})|">Yes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="gel-content-container">
+        <!-- Success Message    -->
+        <div id="success_message" class="alert alert-success alert-dismissible fade d-none" role="alert">
+            <strong>Success!</strong> <span id="success_message_text"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <!-- Failed Message    -->
+        <div id="failed_message" class="alert alert-danger alert-dismissible fade d-none" role="alert">
+            <strong>Failed!</strong> <span id="failed_message_text"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+    <!-- Breadcrumbs -->
+    <nav aria-label="breadcrumb" class="breadcrumb pl-4 breadcrumb_ebe">
+        <span>You are here:</span>
+        <ul>
+            <li>
+                <a href="/ebe/" gel-processed="processed" title="Link to Home page">Home page</a>
+            </li>
+            <li>
+                <a href="/ebe/vacancies" gel-processed="processed" title="Link to Events page">Vacancies page</a>
+            </li>
+            <li>
+                <a href="#" gel-processed="processed" title="Link to Current page title as a link to the current page" th:text="${vacancy.getVacancyName()}"></a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container-headline mt-2 mb-5 ml-2">
+        <span class="title-h2" th:text="${vacancy.getVacancyName()}"></span>
+        <button type="button"  th:if="${session.SESSION_Role =='CWS'}" id="deleteEvent"  data-toggle="modal" data-target="#deleteModal" class="buttonDelete float-right">Delete</button>
+        <button type="button"  th:if="${session.SESSION_Role =='CWS'}" id="updateEvent" data-toggle="modal" data-target="#updateModal" class="buttonUpdate float-right">Update</button>
+    </div>
+
+        <div class="container ml-2">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <p><strong>Employer Name</strong></p>
+                </div>
+                <div class="col-lg-9 col-md-6">
+                    <a th:text="${vacancyEmployerName.getEmployerName()}" th:href="@{/ebe/profile-employer(employerId=${vacancy.getEmployerID()})}"></a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <p><strong>Vacancy Summary</strong></p>
+                </div>
+                <div class="col-lg-9 col-md-6">
+                    <p th:text="${#strings.capitalize(vacancy.getVacancySummary())}"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <p><strong>Link to website</strong></p>
+                </div>
+                <div class="col-lg-9 col-md-6">
+                    <a th:href="@{'https://'+${vacancy.getVacancyLink()}}" th:text="${vacancy.getVacancyLink()}"></a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <p><strong>Type of vacancy</strong></p>
+                </div>
+                <div class="col-lg-9 col-md-6">
+                    <p th:if="${vacancy.getTypeOfVacancyID()} == ${vacancyType.getTypeOfVacancyID()}" th:each="vacancyType : ${allVacanciesTypes}" th:text="${vacancyType.getTypeOfVacancyName()}"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <p><strong>Start date</strong></p>
+                </div>
+                <div class="col-lg-9 col-md-6">
+                    <p th:text="${#dates.format(vacancy.getStartOfVacancy(),'dd-MM-yyyy')}"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <p><strong>Closing date</strong></p>
+                </div>
+                <div class="col-lg-9 col-md-6">
+                    <p th:text="${#dates.format(vacancy.getDeadlineForApplication(),'dd-MM-yyyy')}"></p>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <p><strong>Occupational code</strong></p>
+                </div>
+                <div class="col-lg-9 col-md-6">
+                    <p th:each="vacancyOccupationalCode : ${allVacanciesOccupationalCodes}"  th:if="${vacancy.getOccupationalCodeID()} == ${vacancyOccupationalCode.getOccupationalCodeID()}" th:value="${vacancyOccupationalCode.getOccupationalCodeID()}" th:text="${vacancyOccupationalCode.getOccupationalCodeName()}"></p>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <p><strong>Application method</strong></p>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <p th:each="vacancyApplicationMethods : ${allVacanciesApplicationMethods}" th:if="${vacancy.getApplicationMethodID()} == ${vacancyApplicationMethods.getApplicationMethodID()}" th:value="${vacancyApplicationMethods.getApplicationMethodID()}" th:text="${vacancyApplicationMethods.getApplicationMethodName()}"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <p><strong>Postcode</strong></p>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <p th:text="${vacancy.getVacancyPostcode()}"></p>
+            </div>
+        </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <p><strong>Status Of Vacancy</strong></p>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <p th:each="vacancyStatus : ${allVacanciesStatus}" th:remove="${vacancy.getStatusOfVacancyID()} == ${vacancyStatus.getStatusOfVacancyID()} ? none : all" th:text="${vacancyStatus.getStatusOfVacancyName()}"></p>
+                </div>
+            </div>
+
+
+            <div class="row" th:remove="${vacancyDocuments.size()== 0} ? all : none">
+                <hr class="col-md-11 mt-5 ml-3">
+            </div>
+
+
+            <div class="col-md-12 mt-1 px-0 pr-3" th:remove="${vacancyDocuments.size()== 0} ? all : none">
+                <h3>Vacancy Documents</h3>
+                <table class="table table-hover">
+                    <tbody th:each=" document : ${vacancyDocuments}">
+                    <td>
+                        <a th:href="@{${document}}" target="_blank" th:text="${#strings.substring(document,51)}"></a>
+                    </td>
+                    </tbody>
+                </table>
+            </div>
+
+    </div>
+</div>
+</main>
+
+<footer th:replace="fragments/footerTemplate :: footer"></footer>
+
+<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<!--&lt;!&ndash;<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-styleguide.js"></script>&ndash;&gt;-->
+<!--&lt;!&ndash;<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-elements-loader.js"></script>&ndash;&gt;-->
+<!--<script type="text/javascript" src="https://careerswales.gov.wales/styleguide/assets/js/gel-elements.js"></script>-->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+<!--<script th:src="@{../js/burger-button.js}" src="../js/burger-button.js"></script>-->
+<!--<script th:src="@{../js/vacancy.js}" src="../js/vacancy.js"></script>-->
+
+<script src="https://krzysztof-rachwal.github.io/ebecss/vacancy.js"></script>
+<script src="https://krzysztof-rachwal.github.io/ebecss/burger-button.js"></script>
+
+<script>
+    $('.selectpicker').selectpicker();
+</script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+$("#menuHome").addClass("is-active")

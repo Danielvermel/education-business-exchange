@@ -1,0 +1,298 @@
+.guide-container {
+    background: #323232;
+    display: block;
+    display: grid;
+    grid-gap: 0;
+    grid-template-columns: repeat(11, 1fr);
+    grid-template-rows: repeat(11, 1fr);
+    height: 100vh;
+    width: 100%
+}
+
+.guide-container select {
+    display: none;
+    align-self: center;
+    background: transparent;
+    border: 2px solid #666;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 20px;
+    padding: 4px 0 3px 10px
+}
+
+.guide-container select option {
+    color: #323232
+}
+
+.guide-container select:focus {
+    outline: none
+}
+
+.guide-container .guide-options {
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 20px;
+    grid-column: 1 / 12;
+    grid-row: 1 / 1
+}
+
+.guide-container .guide-options span {
+    color: #fff;
+    font-size: 16px;
+    padding: 0 10px
+}
+
+.guide-container .guide-options button {
+    background: transparent;
+    border: 2px solid #666;
+    border-radius: 25px;
+    color: #666;
+    font-size: 18px;
+    margin: 0 5px;
+    padding: 0 10px
+}
+
+.guide-container .guide-options button.active {
+    border-color: #2ba650;
+    color: #fff
+}
+
+.guide-container .guide-options button::after {
+    display: none
+}
+
+.guide-container .guide-options button:active,
+.guide-container .guide-options button:focus {
+    outline: none
+}
+
+.guide-container .guide-options input {
+    background: transparent;
+    border: 2px solid #666;
+    border-radius: 25px;
+    box-sizing: content-box;
+    color: #666;
+    font-size: 18px;
+    height: 25px;
+    margin: 0 5px;
+    padding: 5px 15px;
+    text-align: center;
+    width: 65px
+}
+
+.guide-container .guide-options input.active {
+    border-color: #2ba650;
+    color: #fff
+}
+
+.guide-container .guide-options input:active,
+.guide-container .guide-options input:focus {
+    outline: none
+}
+
+.guide-container .guide-menu {
+    background: #fff;
+    overflow-y: scroll;
+    padding: 20px;
+    grid-column: 1 / 3;
+    grid-row: 3 / 12
+}
+
+.guide-container .guide-menu button {
+    display: none
+}
+
+.guide-container .guide-menu a {
+    border: 0;
+    display: block;
+    font-weight: 600;
+    margin: 0
+}
+
+.guide-container .guide-menu a:hover,
+.guide-container .guide-menu a:focus {
+    outline: none;
+    text-decoration: underline
+}
+
+.guide-container .guide-menu a.level-1 {
+    color: #323232;
+    font-size: 26px;
+    margin: 0 0 15px
+}
+
+.guide-container .guide-menu a.level-2 {
+    border-top: 1px solid #e5e5e5;
+    color: #323232;
+    font-size: 16px;
+    margin: 5px 0;
+    padding: 5px 0 0
+}
+
+.guide-container .guide-menu a.level-3 {
+    color: #666;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    display: none
+}
+
+.guide-container .guide-menu a.level-3.parent-active {
+    display: block
+}
+
+.guide-container .guide-menu a.level-4 {
+    display: none
+}
+
+.guide-container .guide-sections {
+    align-items: center;
+    background: #2ba650;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 20px;
+    grid-column: 1 / 12;
+    grid-row: 2 / 2
+}
+
+.guide-container .guide-sections .guide-sections__menu-toggle {
+    display: none
+}
+
+.guide-container .guide-sections .guide-title {
+    align-items: center;
+    display: flex;
+    padding: 0 20px;
+    left: 0;
+    position: absolute
+}
+
+.guide-container .guide-sections .guide-title h1 {
+    color: #323232;
+    font-size: 30px;
+    font-weight: 600;
+    margin: 0
+}
+
+.guide-container .guide-sections .guide-title h1 span {
+    color: #fff
+}
+
+.guide-container .guide-sections button {
+    background: transparent;
+    border: 3px solid #fff;
+    border-radius: 25px;
+    color: #fff;
+    margin: 0 8px;
+    padding: 3px 15px
+}
+
+.guide-container .guide-sections button::after {
+    display: none
+}
+
+.guide-container .guide-sections button.active {
+    background: #323232;
+    border-color: #323232
+}
+
+.guide-container .guide-sections button:active,
+.guide-container .guide-sections button:focus {
+    outline: none
+}
+
+.guide-container .guide-content {
+    background: #eee;
+    grid-column: 3 / 12;
+    grid-row: 3 / 12
+}
+
+.guide-container .guide-content iframe {
+    border: 0;
+    display: block;
+    height: 100%;
+    margin: 0 auto;
+    transition: 0.2s;
+    width: 100%
+}
+
+.guide-container.mimic-grid-fixes .guide-options,
+.guide-container.mimic-grid-fixes .guide-sections {
+    display: block;
+    padding: 25px 0 0 0;
+    text-align: right
+}
+
+.guide-container.mimic-grid-fixes .guide-menu,
+.guide-container.mimic-grid-fixes .guide-content {
+    display: block;
+    float: left
+}
+
+@media screen and (max-width: 1310px) {
+    .guide-container {
+        grid-template-columns: 0;
+        grid-template-rows: 2fr;
+        height: 100%
+    }
+    body {
+        overflow: scroll
+    }
+    .guide-container .guide-options {
+        display: none
+    }
+    .guide-container .guide-sections {
+        display: block;
+        grid-row: 1 / 1;
+        padding: 10px 0
+    }
+    .guide-container .guide-sections .guide-title {
+        padding: 0 10px 10px;
+        position: static
+    }
+    .guide-container .guide-sections .guide-title h1 {
+        font-size: 23px;
+        line-height: 25px;
+        max-width: 65%
+    }
+    .guide-container .guide-sections .guide-title button {
+        display: block;
+        font-size: 16px;
+        margin: 0 8px 5px
+    }
+    .guide-container .guide-sections .guide-title button.guide-sections__menu-toggle {
+        display: block;
+        float: right;
+        margin: 0
+    }
+    .guide-container .guide-sections button {
+        display: none
+    }
+    .guide-container .guide-menu {
+        grid-row: 2 / 12;
+        min-width: 280px;
+        left: -1000%;
+        position: relative;
+        transition: 0.25s
+    }
+    .guide-container .guide-menu.active {
+        left: 0
+    }
+    .guide-container .guide-menu button {
+        display: block
+    }
+    .guide-container .guide-content {
+        grid-column: 1 / 12;
+        grid-row: 2 / 12
+    }
+    .guide-container .guide-content #guide-content {
+        max-width: 100%
+    }
+    .guide-container .guide-content #guide-content .gc__element .gc__element-tabs {
+        display: none
+    }
+}

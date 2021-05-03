@@ -1,0 +1,22 @@
+INSERT INTO IndustrySectorList VALUES (1, "Agriculture, forestry and fishing");
+INSERT INTO IndustrySectorList VALUES (2, "Mining and quarrying");
+INSERT INTO IndustrySectorList VALUES (3, "Manufacturing");
+INSERT INTO IndustrySectorList VALUES (4, "Electricity, gas, steam and air conditioning supply");
+INSERT INTO IndustrySectorList VALUES (5, "Water supply; sewerage and waste management ");
+INSERT INTO IndustrySectorList VALUES (6, "Construction");
+INSERT INTO IndustrySectorList VALUES (7, "Wholesale and retail trade; repair of motor vehicles and motorcycles");
+INSERT INTO IndustrySectorList VALUES (8, "Transportation and storage");
+INSERT INTO IndustrySectorList VALUES (9, "Accommodation and food service activities");
+INSERT INTO IndustrySectorList VALUES (10, "Information and communication");
+INSERT INTO IndustrySectorList VALUES (11, "Financial and insurance activities");
+INSERT INTO IndustrySectorList VALUES (12, "Real estate activities");
+INSERT INTO IndustrySectorList VALUES (13, "Professional, scientific and technical activities");
+INSERT INTO IndustrySectorList VALUES (14, "Administrative and support service activities");
+INSERT INTO IndustrySectorList VALUES (15, "Public administration and defence; compulsory social security");
+INSERT INTO IndustrySectorList VALUES (16, "Education");
+INSERT INTO IndustrySectorList VALUES (17, "Human health and social work activities");
+INSERT INTO IndustrySectorList VALUES (18, "Arts, entertainment and recreation");
+INSERT INTO IndustrySectorList VALUES (19, "Other service activities");
+INSERT INTO IndustrySectorList VALUES (20, "Activities of households as employers");
+INSERT INTO IndustrySectorList VALUES (21, "Activities of extraterritorial organisations and bodies");
+
